@@ -1,0 +1,930 @@
+openapi: 3.0.3
+info:
+  title: Digital Bank API
+  version: 1.0.0
+  description: This API allows you to manage your digital bank
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: Users
+    description: Operations related to users
+  - name: Accounts
+    description: Operations related to account
+  - name: Transactions
+    description: Operations related to transactions
+  - name: Transfers
+    description: Operations related to transfers
+  - name: Category Operations
+    description: Operations related to category_operation
+  - name: Loans
+    description: Operations related to Loans
+paths:
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Get a list of users
+      description: Return all user ordered
+      operationId: getUser
+      responses:
+        200:
+          $ref: '#/components/responses/UsersList_200'
+        400:
+          $ref: "#/components/responses/BadRequest_400"
+        403:
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        500:
+          $ref: "#/components/responses/ErrorRequest_500"
+    post:
+      summary: Add a new user
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Users'
+      responses:
+        200:
+          $ref: '#/components/responses/UsersList_200'
+        400:
+          $ref: "#/components/responses/BadRequest_400"
+        403:
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        500:
+          $ref: "#/components/responses/ErrorRequest_500"
+  /users/{userId}:
+    get:
+      tags:
+        - Users
+      summary: Retrieve details of an user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: User ID
+          schema:
+            type: integer
+      responses:
+        200:
+          $ref: '#/components/responses/UsersList_200'
+        400:
+          $ref: "#/components/responses/BadRequest_400"
+        403:
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        500:
+          $ref: "#/components/responses/ErrorRequest_500"
+    put:
+      tags:
+        - Users
+      summary: Modifiy an existing user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: User ID
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Users'
+      responses:
+        200:
+          $ref: '#/components/responses/UsersList_200'
+        400:
+          $ref: "#/components/responses/BadRequest_400"
+        403:
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        500:
+          $ref: "#/components/responses/ErrorRequest_500"
+
+  /accounts:
+    get:
+      tags:
+        - Accounts
+      summary: Retrieve the list of accounts
+      description: The returne account all ordered
+      operationId: getAccount
+      responses:
+        200:
+          $ref: "#/components/responses/AccountList_200"
+        400:
+          $ref: "#/components/responses/BadRequest_400"
+        403:
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        500:
+          $ref: "#/components/responses/ErrorRequest_500"
+    post:
+      summary: Add a new account
+      tags:
+        - Accounts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Accounts'
+      responses:
+        200:
+          $ref: "#/components/responses/AccountList_200"
+        400:
+          $ref: "#/components/responses/BadRequest_400"
+        403:
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        500:
+          $ref: "#/components/responses/ErrorRequest_500"
+
+  /accounts/{accountId}:
+    get:
+      tags:
+        - Accounts
+      summary: Retrieve details of an account
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: Account ID
+          schema:
+            type: integer
+      responses:
+        200:
+          $ref: "#/components/responses/AccountList_200"
+        400:
+          $ref: "#/components/responses/BadRequest_400"
+        403:
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        500:
+          $ref: "#/components/responses/ErrorRequest_500"
+    put:
+      tags:
+        - Accounts
+      summary: Modify an existing account
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: Account ID
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Accounts'
+      responses:
+        200:
+          $ref: "#/components/responses/AccountList_200"
+        400:
+          $ref: "#/components/responses/BadRequest_400"
+        403:
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        500:
+          $ref: "#/components/responses/ErrorRequest_500"
+
+  /transactions:
+    get:
+      summary: Retrieve the list of transactions
+      tags:
+        - Transactions
+      responses:
+        200:
+          $ref: "#/components/responses/TransactionList_200"
+        400:
+          $ref: "#/components/responses/BadRequest_400"
+        403:
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        500:
+          $ref: "#/components/responses/ErrorRequest_500"
+    post:
+      summary: Add a new transaction
+      tags:
+        - Transactions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transactions'
+      responses:
+        200:
+          $ref: "#/components/responses/TransactionList_200"
+        400:
+          $ref: "#/components/responses/BadRequest_400"
+        403:
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        500:
+          $ref: "#/components/responses/ErrorRequest_500"
+
+  /transactions/{transactionId}:
+    get:
+      summary: Retrieve details of a transaction
+      tags:
+        - Transactions
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          description: Transaction ID
+          schema:
+            type: integer
+      responses:
+        200:
+          $ref: "#/components/responses/TransactionList_200"
+        400:
+          $ref: "#/components/responses/BadRequest_400"
+        403:
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        500:
+          $ref: "#/components/responses/ErrorRequest_500"
+
+    put:
+      summary: Modify an existing transaction
+      tags:
+        - Transactions
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          description: Transaction ID
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transactions'
+      responses:
+        200:
+          $ref: "#/components/responses/TransactionList_200"
+        400:
+          $ref: "#/components/responses/BadRequest_400"
+        403:
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        500:
+          $ref: "#/components/responses/ErrorRequest_500"
+  /accounts/{accountId}/transactions:
+    get:
+      summary: Retrieve transactions of a specific account
+      tags:
+        - Transactions
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: Account ID
+          schema:
+            type: integer
+        - name: startDate
+          in: query
+          description: Start date for filtering transactions
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          description: End date for filtering transactions
+          schema:
+            type: string
+            format: date
+        - name: category
+          in: query
+          description: Transaction category for filtering
+          schema:
+            type: string
+        - name: minAmount
+          in: query
+          description: Minimum transaction amount for filtering
+          schema:
+            type: number
+        - name: maxAmount
+          in: query
+          description: Maximum transaction amount for filtering
+          schema:
+            type: number
+      responses:
+        200:
+          $ref: "#/components/responses/TransactionList_200"
+        400:
+          $ref: "#/components/responses/BadRequest_400"
+        403:
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        500:
+          $ref: "#/components/responses/ErrorRequest_500"
+    post:
+      summary: Add a new transaction to an account
+      tags:
+        - Accounts
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: Account ID
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transactions'
+      responses:
+        200:
+          $ref: "#/components/responses/TransactionList_200"
+        400:
+          $ref: "#/components/responses/BadRequest_400"
+        403:
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        500:
+          $ref: "#/components/responses/ErrorRequest_500"
+
+
+  /categoryOperations:
+    get:
+      summary: Retrieve the list of category operations
+      tags:
+        - Category Operations
+      responses:
+        '200':
+          $ref: "#/components/responses/CategoryOperationList_200"
+        '400':
+          $ref: "#/components/responses/BadRequest_400"
+        '403':
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        '500':
+          $ref: "#/components/responses/ErrorRequest_500"
+    post:
+      summary: Add a new category operation
+      tags:
+        - Category Operations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryOperations'
+      responses:
+        '200':
+          $ref: "#/components/responses/CategoryOperationList_200"
+        '400':
+          $ref: "#/components/responses/BadRequest_400"
+        '403':
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        '500':
+          $ref: "#/components/responses/ErrorRequest_500"
+
+  /categoryOperations/{categoryId}:
+    get:
+      summary: Retrieve details of a category operation
+      tags:
+        - Category Operations
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          description: Category Operation ID
+          schema:
+            type: integer
+      responses:
+        '200':
+          $ref: "#/components/responses/CategoryOperationList_200"
+        '400':
+          $ref: "#/components/responses/BadRequest_400"
+        '403':
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        '500':
+          $ref: "#/components/responses/ErrorRequest_500"
+
+    put:
+      summary: Modify an existing category operation
+      tags:
+        - Category Operations
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          description: Category Operation ID
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryOperations'
+      responses:
+        '200':
+          $ref: "#/components/responses/CategoryOperationList_200"
+        '400':
+          $ref: "#/components/responses/BadRequest_400"
+        '403':
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        '500':
+          $ref: "#/components/responses/ErrorRequest_500"
+
+  /transfers:
+    get:
+      summary: Retrieve the list of transfers
+      tags:
+        - Transfers
+      responses:
+        '200':
+          $ref: "#/components/responses/TransferList_200"
+        '400':
+          $ref: "#/components/responses/BadRequest_400"
+        '403':
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        '500':
+          $ref: "#/components/responses/ErrorRequest_500"
+    post:
+      summary: Add a new transfer
+      tags:
+        - Transfers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transfers'
+      responses:
+        '200':
+          $ref: "#/components/responses/TransferList_200"
+        '400':
+          $ref: "#/components/responses/BadRequest_400"
+        '403':
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        '500':
+          $ref: "#/components/responses/ErrorRequest_500"
+
+  /transfers/{transferId}:
+    get:
+      summary: Retrieve details of a transfer
+      tags:
+        - Transfers
+      parameters:
+        - name: transferId
+          in: path
+          required: true
+          description: Transfer ID
+          schema:
+            type: integer
+      responses:
+        '200':
+          $ref: "#/components/responses/TransferList_200"
+        '400':
+          $ref: "#/components/responses/BadRequest_400"
+        '403':
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        '500':
+          $ref: "#/components/responses/ErrorRequest_500"
+
+    put:
+      summary: Modify an existing transfer
+      tags:
+        - Transfers
+      parameters:
+        - name: transferId
+          in: path
+          required: true
+          description: Transfer ID
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transfers'
+      responses:
+        '200':
+          $ref: "#/components/responses/TransferList_200"
+        '400':
+          $ref: "#/components/responses/BadRequest_400"
+        '403':
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        '500':
+          $ref: "#/components/responses/ErrorRequest_500"
+  /loans:
+    get:
+      tags:
+        - Loans
+      summary: Retrieve the list of loans
+      responses:
+        '200':
+          $ref: "#/components/responses/LoanList_200"
+        '400':
+          $ref: "#/components/responses/BadRequest_400"
+        '403':
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        '500':
+          $ref: "#/components/responses/ErrorRequest_500"
+    post:
+      tags:
+        - Loans
+      summary: Add a new loan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Loans'
+      responses:
+        '200':
+          $ref: "#/components/responses/LoanList_200"
+        '400':
+          $ref: "#/components/responses/BadRequest_400"
+        '403':
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        '500':
+          $ref: "#/components/responses/ErrorRequest_500"
+  /loans/{loanId}:
+    get:
+      tags:
+        - Loans
+      summary: Retrieve details of a loan
+      parameters:
+        - name: loanId
+          in: path
+          required: true
+          description: Loan ID
+          schema:
+            type: integer
+      responses:
+        '200':
+          $ref: "#/components/responses/LoanList_200"
+        '400':
+          $ref: "#/components/responses/BadRequest_400"
+        '403':
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        '500':
+          $ref: "#/components/responses/ErrorRequest_500"
+    put:
+      tags:
+        - Loans
+      summary: Modify an existing loan
+      parameters:
+        - name: loanId
+          in: path
+          required: true
+          description: Loan ID
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Loans'
+      responses:
+        '200':
+          $ref: "#/components/responses/LoanList_200"
+        '400':
+          $ref: "#/components/responses/BadRequest_400"
+        '403':
+          $ref: "#/components/responses/ForbiddenRequest_403"
+        '500':
+          $ref: "#/components/responses/ErrorRequest_500"
+
+
+
+
+
+
+
+
+
+components:
+  schemas:
+    Users:
+      type: object
+      description: "Schema for representing user details."
+      properties:
+        id:
+          type: integer
+          description: "The unique identifier of the user."
+        name:
+          type: string
+          description: "The name of the user."
+        username:
+          type: string
+          description: "The username of the user."
+        birthday:
+          type: string
+          format: date
+          description: "The birthday of the user."
+        email:
+          type: string
+          description: "The email address of the user."
+        password:
+          type: string
+          description: "The password of the user."
+
+    Accounts:
+      type: object
+      description: "Schema for representing account details."
+      properties:
+        id:
+          type: integer
+          description: "The unique identifier of the account."
+        accountNumber:
+          type: string
+          description: "The account number of the account."
+        balance:
+          type: integer
+          description: "The balance of the account."
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transactions'
+          description: "List of transactions associated with the account."
+
+
+
+    Transactions:
+      type: object
+      description: "Schema for representing transaction details."
+      properties:
+        id:
+          type: integer
+          description: "The unique identifier of the transaction."
+        amount:
+          type: number
+          description: "The amount of the transaction."
+        dateOfTransaction:
+          type: string
+          format: date
+          description: "The date of the transaction."
+        transactionsType:
+          type: string
+          enum:
+            - Withdraw
+            - Deposit
+            - transfer:
+                type: string
+                format: array
+                items:
+                  $ref: '#/components/schemas/Transfers'
+          description: "The type of the transaction."
+
+
+    TransferSameBank:
+      type: object
+      properties:
+        from_account_id:
+          type: string
+          description: The ID of the account from which the transfer is made.
+        to_account_id:
+          type: string
+          description: The ID of the account to which the transfer is made.
+        amount:
+          type: number
+          description: The amount of money to be transferred.
+        same_bank:
+          type: boolean
+          description: Indicates if the transfer is within the same bank or not.
+      required:
+        - from_account_id
+        - to_account_id
+        - amount
+        - same_bank
+      additionalProperties: false
+
+    TransferOtherBank:
+        type: object
+        properties:
+          from_account_id:
+            type: string
+            description: The ID of the account from which the transfer is made.
+          to_account_id:
+            type: string
+            description: The ID of the account to which the transfer is made.
+          amount:
+            type: number
+            description: The amount of money to be transferred.
+          same_bank:
+            type: boolean
+            description: Indicates if the transfer is within the same bank or not.
+          other_bank_name:
+            type: string
+            description: The name of the other bank.
+          other_bank_account_number:
+            type: string
+            description: The account number in the other bank.
+        required:
+          - from_account_id
+          - to_account_id
+          - amount
+          - same_bank
+          - other_bank_name
+          - other_bank_account_number
+        additionalProperties: false
+
+    Transfers:
+        oneOf:
+          - $ref: '#/components/schemas/TransferSameBank'
+          - $ref: '#/components/schemas/TransferOtherBank'
+
+    CategoryOperations:
+      type: object
+      description: "Schema for representing category operation details."
+      properties:
+        id:
+          type: integer
+          description: "The unique identifier of the category operation."
+        category_name:
+          type: string
+          description: "The name of the category operation."
+    Loans:
+      type: object
+      properties:
+        id_loan:
+          type: integer
+          description: The unique identifier of the loan.
+        amount:
+          type: number
+          description: The amount of the loan.
+        interest_rate:
+          type: number
+          description: The interest rate of the loan.
+        start_date_loan:
+          type: string
+          format: date
+          description: The start date of the loan.
+        end_date_loan:
+          type: string
+          format: date
+          description: The end date of the loan.
+        status:
+          type: string
+          description: The status of the loan.
+        creation_date:
+          type: string
+          format: date-time
+          description: The creation date of the loan.
+        update_date:
+          type: string
+          format: date-time
+          description: The last update date of the loan.
+
+
+
+    ResponseStatus:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: OK
+
+    ResponseBodyTemplate:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ResponseStatus'
+        body:
+          type: object
+
+    BadRequestBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+      example:
+        status:
+          code: 400
+          message: BAD REQUEST
+        body: { }
+
+    ForbiddenRequest:
+        allOf:
+          - $ref: '#/components/schemas/ResponseBodyTemplate'
+        example:
+          status:
+            code: 403
+            message: FORBIDDEN
+          body: { }
+
+    ServerErrorRequest:
+        allOf:
+          - $ref: '#/components/schemas/ResponseBodyTemplate'
+        example:
+          status:
+            code: 500
+            message: Internal servor error
+          body: { }
+
+    UserListBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+        - properties:
+            body:
+              type: array
+              items:
+                $ref: '#/components/schemas/Users'
+    AccountListBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+        - properties:
+            body:
+              type: array
+              items:
+                $ref: '#/components/schemas/Accounts'
+
+    TransactionListBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+        - properties:
+            body:
+              type: array
+              items:
+                $ref: '#/components/schemas/Transactions'
+
+    CategoryOperationListBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+        - properties:
+            body:
+              type: array
+              items:
+                - $ref: '#/components/schemas/CategoryOperations'
+    TransferListBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+        - properties:
+            body:
+              type: array
+              items:
+                $ref: '#/components/schemas/Transfers'
+    LoanListBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+        - properties:
+            body:
+              type: array
+              items:
+                $ref: '#/components/schemas/Loans'
+  responses:
+    UsersList_200:
+      description: List of users
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserListBody'
+    AccountList_200:
+      description: List of accounts
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccountListBody'
+    TransactionList_200:
+      description: List of transactions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TransactionListBody'
+    TransferList_200:
+      description: List of transfer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TransferListBody'
+    CategoryOperationList_200:
+      description: List of transfer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CategoryOperationListBody'
+    LoanList_200:
+      description: List of transfer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LoanListBody'
+
+    BadRequest_400:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadRequestBody'
+    ForbiddenRequest_403:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ForbiddenRequest'
+    ErrorRequest_500:
+      description: Error request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ServerErrorRequest'
+
+
+
+
