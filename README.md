@@ -2,6 +2,10 @@
 
 This Spring Boot project implements a RESTful API for managing bank accounts, transactions, and expense categories.
 
+### OpenAPI
+This document describes the Application Programming Interface (API) for this project. You can view it online at the following URL:
+[Link to OpenAPI](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/rasoanirinamialisoa/Examen_Final_PROG4_API/main/docs/openAPI.yaml)
+
 ### Features
 
 * **Accounts:**
