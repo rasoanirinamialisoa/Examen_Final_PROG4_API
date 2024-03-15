@@ -590,14 +590,6 @@ paths:
         '500':
           $ref: "#/components/responses/ErrorRequest_500"
 
-
-
-
-
-
-
-
-
 components:
   schemas:
     Users:
@@ -671,33 +663,10 @@ components:
                   $ref: '#/components/schemas/Transfers'
           description: "The type of the transaction."
 
-
-    TransferSameBank:
-      type: object
-      properties:
-        from_account_id:
-          type: string
-          description: The ID of the account from which the transfer is made.
-        to_account_id:
-          type: string
-          description: The ID of the account to which the transfer is made.
-        amount:
-          type: number
-          description: The amount of money to be transferred.
-        same_bank:
-          type: boolean
-          description: Indicates if the transfer is within the same bank or not.
-      required:
-        - from_account_id
-        - to_account_id
-        - amount
-        - same_bank
-      additionalProperties: false
-
-    TransferOtherBank:
+    Transfers:
         type: object
         properties:
-          from_account_id:
+          id:
             type: string
             description: The ID of the account from which the transfer is made.
           to_account_id:
@@ -709,25 +678,15 @@ components:
           same_bank:
             type: boolean
             description: Indicates if the transfer is within the same bank or not.
+          other_bank:
+            type: boolean
+            description: Indicates if the tranfer is in the same bank
           other_bank_name:
             type: string
             description: The name of the other bank.
           other_bank_account_number:
             type: string
             description: The account number in the other bank.
-        required:
-          - from_account_id
-          - to_account_id
-          - amount
-          - same_bank
-          - other_bank_name
-          - other_bank_account_number
-        additionalProperties: false
-
-    Transfers:
-        oneOf:
-          - $ref: '#/components/schemas/TransferSameBank'
-          - $ref: '#/components/schemas/TransferOtherBank'
 
     CategoryOperations:
       type: object
@@ -739,10 +698,11 @@ components:
         category_name:
           type: string
           description: "The name of the category operation."
+
     Loans:
       type: object
       properties:
-        id_loan:
+        id:
           type: integer
           description: The unique identifier of the loan.
         amount:
@@ -751,22 +711,22 @@ components:
         interest_rate:
           type: number
           description: The interest rate of the loan.
-        start_date_loan:
+        startDate:
           type: string
           format: date
           description: The start date of the loan.
-        end_date_loan:
+        endDate:
           type: string
           format: date
           description: The end date of the loan.
         status:
           type: string
           description: The status of the loan.
-        creation_date:
+        creationDate:
           type: string
           format: date-time
           description: The creation date of the loan.
-        update_date:
+        updateDate:
           type: string
           format: date-time
           description: The last update date of the loan.
