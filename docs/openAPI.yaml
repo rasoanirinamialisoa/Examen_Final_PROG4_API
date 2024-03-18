@@ -301,12 +301,12 @@ paths:
           in: query
           description: Minimum transaction amount for filtering
           schema:
-            type: number
+            type: double
         - name: maxAmount
           in: query
           description: Maximum transaction amount for filtering
           schema:
-            type: number
+            type: double
       responses:
         200:
           $ref: "#/components/responses/TransactionList_200"
@@ -645,7 +645,7 @@ components:
           type: integer
           description: "The unique identifier of the transaction."
         amount:
-          type: number
+          type: double
           description: "The amount of the transaction."
         dateOfTransaction:
           type: string
@@ -673,7 +673,7 @@ components:
             type: string
             description: The ID of the account to which the transfer is made.
           amount:
-            type: number
+            type: double
             description: The amount of money to be transferred.
           same_bank:
             type: boolean
@@ -706,7 +706,7 @@ components:
           type: integer
           description: The unique identifier of the loan.
         amount:
-          type: number
+          type: double
           description: The amount of the loan.
         interest_rate:
           type: number
