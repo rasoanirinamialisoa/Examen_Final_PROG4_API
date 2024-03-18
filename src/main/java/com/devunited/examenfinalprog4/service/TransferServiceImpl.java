@@ -20,9 +20,10 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public Transfers getTransferById(String id) throws SQLException {
+    public Transfers getTransferById(int id) throws SQLException {
         return transferRepository.getTransferById(id);
     }
+
 
     @Override
     public Transfers createTransfer(Transfers transfer) throws SQLException {

@@ -29,10 +29,10 @@ public class TransferRepositoryImpl implements TransferRepository {
     }
 
     @Override
-    public Transfers getTransferById(String id) throws SQLException {
+    public Transfers getTransferById(int id) throws SQLException {
         String query = "SELECT * FROM transfers WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, id);
+            preparedStatement.setInt(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return mapResultSetToTransfer(resultSet);
@@ -42,23 +42,24 @@ public class TransferRepositoryImpl implements TransferRepository {
         return null;
     }
 
+
     @Override
     public Transfers createTransfer(Transfers transfer) throws SQLException {
-        String query = "INSERT INTO transfers ( to_account_id, amount, same_bank, other_bank, other_bank_name) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO transfers ( amount, same_bank, other_bank, other_bank_name, other_account_number) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, transfer.getId());
-            preparedStatement.setString(2, transfer.getTo_account_id());
-            preparedStatement.setDouble(3, transfer.getAmount());
-            preparedStatement.setBoolean(4, transfer.isSame_bank());
-            preparedStatement.setBoolean(5, transfer.isOther_bank());
-            preparedStatement.setString(6, transfer.getOther_bank_name());
+            preparedStatement.setInt(1, transfer.getId());
+            preparedStatement.setDouble(2, transfer.getAmount());
+            preparedStatement.setBoolean(3, transfer.isSame_bank());
+            preparedStatement.setBoolean(4, transfer.isOther_bank());
+            preparedStatement.setString(5, transfer.getOther_bank_name());
+            preparedStatement.setString(6, transfer.getOther_account_number());
 
             int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected > 0) {
                 try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
-                        transfer.setId(generatedKeys.getString(1));
+                        transfer.setId(generatedKeys.getInt(1));
                         return transfer;
                     } else {
                         throw new SQLException("Échec de récupération de l'ID généré.");
@@ -72,14 +73,14 @@ public class TransferRepositoryImpl implements TransferRepository {
 
     @Override
     public Transfers updateTransfer(String id, Transfers transfer) throws SQLException {
-        String query = "UPDATE transfers SET toAccountId = ?, amount = ?, same_bank = ?, other_bank = ?, other_bank_name = ? WHERE id = ?";
+        String query = "UPDATE transfers SET amount = ?, same_bank = ?, other_bank = ?, other_bank_name = ?, other_account_number = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(2, transfer.getTo_account_id());
-            preparedStatement.setDouble(3, transfer.getAmount());
-            preparedStatement.setBoolean(4, transfer.isSame_bank());
-            preparedStatement.setBoolean(5, transfer.isOther_bank());
-            preparedStatement.setString(6, transfer.getOther_bank_name());
-            preparedStatement.setString(8, id);
+            preparedStatement.setDouble(1, transfer.getAmount());
+            preparedStatement.setBoolean(2, transfer.isSame_bank());
+            preparedStatement.setBoolean(3, transfer.isOther_bank());
+            preparedStatement.setString(4, transfer.getOther_bank_name());
+            preparedStatement.setString(4, transfer.getOther_account_number());
+            preparedStatement.setString(6, id);
             int updatedRows = preparedStatement.executeUpdate();
             if (updatedRows > 0) {
                 return transfer;
@@ -90,12 +91,12 @@ public class TransferRepositoryImpl implements TransferRepository {
 
     private Transfers mapResultSetToTransfer(ResultSet resultSet) throws SQLException {
         Transfers transfer = new Transfers();
-        transfer.setId(resultSet.getString(Transfers.ID));
-        transfer.setTo_account_id(resultSet.getString(Transfers.TO_ACCOUNT_ID));
+        transfer.setId(resultSet.getInt(Transfers.ID));
         transfer.setAmount(resultSet.getDouble(Transfers.AMOUNT));
         transfer.setSame_bank(resultSet.getBoolean(Transfers.SAME_BANK));
         transfer.setOther_bank(resultSet.getBoolean(Transfers.OTHER_BANK));
         transfer.setOther_bank_name(resultSet.getString(Transfers.OTHER_BANK_NAME));
+        transfer.setOther_account_number(resultSet.getString(Transfers.OTHER_ACCOUNT_NUMBER));
         return transfer;
     }
 }

@@ -23,9 +23,10 @@ public class TransferController {
     }
 
     @GetMapping("/transfers/{id}")
-    public Transfers getTransferById(@PathVariable String id) throws SQLException {
+    public Transfers getTransferById(@PathVariable int id) throws SQLException {
         return transferService.getTransferById(id);
     }
+
 
     @PostMapping("/transfers")
     public Transfers addTransfer(@RequestBody Transfers transfer) throws SQLException {
