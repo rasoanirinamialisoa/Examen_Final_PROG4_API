@@ -1,24 +1,36 @@
 package com.devunited.examenfinalprog4.Repository;
 
-import com.devunited.examenfinalprog4.model.Users;
+import com.devunited.examenfinalprog4.Utils;
 import com.devunited.examenfinalprog4.repository.UserRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
-@RunWith(SpringRunner.class)
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+
 @SpringBootTest
 public class UserRepositoryTest {
-    @Autowired
-    private UserRepositoryImpl userRepositoryImpl;
+    @Mock
+    private Connection mockConnection;
 
-    public void testCreateUser() throws SQLException {
-        Users users = new Users();
-        userRepositoryImpl.createUser(users);
+    @BeforeEach
+    public void setUp() throws SQLException {
+        when(mockConnection.prepareStatement(anyString()))
+                .thenThrow(new SQLException("Connection failed"));
+        Utils.getMockConnection(mockConnection);
+    }
+
+    @Test
+    public void testGetAllUsers_ShouldThrowSQLException_OnConnectionError() {
+        UserRepositoryImpl userRepository = new UserRepositoryImpl();
+        assertThrows(SQLException.class, userRepository::getAllUsers);
     }
 }
