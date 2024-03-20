@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
+
 public interface UserRepository {
     List<Users> getAllUsers() throws SQLException;
     Users getUserById(int id) throws SQLException;
