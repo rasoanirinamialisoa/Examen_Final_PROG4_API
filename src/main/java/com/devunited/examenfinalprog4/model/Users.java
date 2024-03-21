@@ -2,6 +2,7 @@ package com.devunited.examenfinalprog4.model;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Setter
 @Getter
@@ -22,4 +23,5 @@ public class Users {
     public static final String BIRTHDAY = "birthday";
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
+
 }
