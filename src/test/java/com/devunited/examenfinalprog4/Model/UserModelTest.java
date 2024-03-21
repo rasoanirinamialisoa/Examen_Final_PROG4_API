@@ -1,4 +1,4 @@
-package com.devunited.examenfinalprog4;
+package com.devunited.examenfinalprog4.Model;
 
 import com.devunited.examenfinalprog4.model.Users;
 import org.junit.jupiter.api.Test;
