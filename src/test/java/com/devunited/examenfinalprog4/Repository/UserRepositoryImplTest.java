@@ -84,7 +84,7 @@ public class UserRepositoryImplTest {
 
         int userIdToUpdate = 9;
         Users updatedUser = new Users(userIdToUpdate, "Dylan Thomas Sprouse", "Thomas Sprouse",
-                LocalDate.of(2000, 1, 1),
+                LocalDate.of(1990, 1, 1),
                 "thomas@example.com", "sprouse7410");
         Users result = userRepositoryImpl.updateUser(userIdToUpdate, updatedUser);
 
