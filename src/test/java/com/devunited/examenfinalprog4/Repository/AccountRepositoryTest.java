@@ -106,8 +106,8 @@ public class AccountRepositoryTest {
 
         @Test
     public void testUpdateAccount_ValidData_ReturnsUpdatedAccount() throws SQLException {
-        int accountIdToUpdate = 3;
-        Accounts updatedAccount = new Accounts(accountIdToUpdate, "9988776655", 6000.00, 5);
+        int accountIdToUpdate = 5;
+        Accounts updatedAccount = new Accounts(accountIdToUpdate, "5678901234", 3050000.25, 5);
 
         when(accountRepository.updateAccount(accountIdToUpdate, updatedAccount)).thenReturn(updatedAccount);
 
