@@ -2,6 +2,7 @@ package com.devunited.examenfinalprog4.controller;
 
 import com.devunited.examenfinalprog4.model.Users;
 import com.devunited.examenfinalprog4.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,8 +16,10 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -29,6 +32,9 @@ public class UsersControllerTest {
 
     @MockBean
     private UserService userService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     public void givenUsers_whenGetAllUsers_thenReturnJsonArray() throws Exception {
@@ -66,4 +72,36 @@ public class UsersControllerTest {
                 .andExpect(jsonPath("$[8].name").value(user9.getName()))
                 .andExpect(jsonPath("$[9].name").value(user10.getName()));
     }
+    @Test
+    public void givenUser_whenGetUserById_thenReturnJson() throws Exception {
+
+        int userId = 1;
+        Users user = new Users(userId, "John Doe", "johndoe", LocalDate.of(1990, 1, 1), "johndoe@example.com", "password123");
+
+        given(userService.getUserById(userId)).willReturn(user);
+
+        mockMvc.perform(get("/api/users/{id}", userId))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id").value(userId))
+                .andExpect(jsonPath("$.name").value(user.getName()));
+    }
+
+    @Test
+    public void givenUser_whenAddUser_thenReturnJson() throws Exception {
+
+        Users newUser = new Users(1, "Jane Smith", "janesmith", LocalDate.of(1991, 2, 2), "jane@example.com", "password456");
+
+        given(userService.createUser(any(Users.class))).willReturn(newUser);
+
+        mockMvc.perform(post("/api/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newUser)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id").value(newUser.getId()))
+                .andExpect(jsonPath("$.name").value(newUser.getName()));
+    }
+
+
 }
