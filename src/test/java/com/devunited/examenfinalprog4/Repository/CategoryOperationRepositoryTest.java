@@ -50,7 +50,7 @@ public class CategoryOperationRepositoryTest {
     public void findAll_andReturnCorrectNumberOfCategory() throws SQLException {
         List<CategoryOperations> categoryOperations = categoryOperationsRepositoryImpl.getAllCategoryOperations();
 
-        assertThat(categoryOperations).hasSize(17);
+        assertThat(categoryOperations).hasSize(20);
     }
 
     @Test
@@ -63,12 +63,12 @@ public class CategoryOperationRepositoryTest {
 
     @Test
     public void createCategory_andCreatedSuccessfully() throws SQLException {
-        CategoryOperations newCategory = new CategoryOperations(10, "Sport");
+        CategoryOperations newCategory = new CategoryOperations(11, "Other");
         CategoryOperations createdCategory = categoryOperationsRepositoryImpl.createCategoryOperations(newCategory);
 
         assertThat(createdCategory).isNotNull();
         assertThat(createdCategory.getId()).isPositive();
-        assertThat(createdCategory.getName()).isEqualTo("Sport");
+        assertThat(createdCategory.getName()).isEqualTo("Other");
     }
 
 

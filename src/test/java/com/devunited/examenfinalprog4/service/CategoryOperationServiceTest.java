@@ -55,7 +55,7 @@ public class CategoryOperationServiceTest {
     @Test
     public void testCreateCategoryOperations_Success() throws SQLException {
 
-        CategoryOperations categoryOperation = new CategoryOperations(11, "Sport");
+        CategoryOperations categoryOperation = new CategoryOperations(11, "Other");
 
         when(categoryOperationsRepository.createCategoryOperations(categoryOperation)).thenReturn(categoryOperation);
 
