@@ -3,8 +3,6 @@ CREATE TABLE "category_operation"(
     name Varchar (50) NOT NULL
 );
 
-
-
 INSERT INTO "category_operation" (name) VALUES
 ('Groceries'),
 ('Utilities'),
