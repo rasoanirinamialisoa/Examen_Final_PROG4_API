@@ -19,3 +19,4 @@ INSERT INTO "transactions" (type, date, amount, id_accounts, id_category_operati
 ('Deposit', '2023-03-15', 400.00, '12', '4'),
 ('Withdraw', '2023-04-10', 200.00, '18', '5'),
 ('Deposit', '2023-05-25', 250.00, '19', '4');
+

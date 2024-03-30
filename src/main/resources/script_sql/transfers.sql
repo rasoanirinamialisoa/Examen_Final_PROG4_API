@@ -24,4 +24,5 @@ INSERT INTO "transfers" (to_account_id, amount, same_bank, other_bank, other_ban
 ('45678901', 200.00, false, true, 'BNI', 3),
 ('56789012', 250.00, false, true, 'BMOI', 4),
 ('67890123', 300.00, true, false, '', 5);
+
 >>>>>>> 02f05f656d55ed0e20e7881ac3ae7f9e3fd3cfbd

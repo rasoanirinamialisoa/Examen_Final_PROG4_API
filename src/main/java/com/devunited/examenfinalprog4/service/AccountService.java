@@ -10,5 +10,5 @@ public interface AccountService {
     Accounts getAccountById(int id) throws SQLException;
     Accounts createAccount(Accounts account) throws SQLException;
     Accounts updateAccount(int id, Accounts account) throws SQLException;
-
+    boolean withdraw(int accountId, double amount) throws SQLException;
 }

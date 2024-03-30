@@ -38,4 +38,22 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.updateAccount(id, account);
     }
 
+    public boolean withdraw(int accountId, double amount) throws SQLException {
+        Accounts account = accountRepository.getAccountById(accountId);
+        if (account == null) {
+            throw new SQLException("Account not found.");
+        }
+        double newBalance = account.getBalance() - amount;
+
+        if (newBalance < 0 && (!account.isOverdraftEnabled() || newBalance < -account.getCreditLimit())) {
+            return false;
+        } else {
+            account.setBalance(newBalance);
+            accountRepository.updateAccount(accountId, account);
+            return true;
+        }
+    }
+
+
+
 }

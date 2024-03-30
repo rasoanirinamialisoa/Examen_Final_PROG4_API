@@ -30,3 +30,4 @@ INSERT INTO "users" (name, username, birthday, email, password) VALUES
 ('Archie Andrews', 'archiebald', '1998-06-05', 'archieandrews@example.com', 'bulldogs6603'),
 ('Ethel Mugs', 'ethelmugs', '1999-12-24', 'ethel@example.com', 'comicbooks056'),
 ('Dylan Sprouse', 'dylansprouse', '2000-10-19', 'dylan@example.com', 'sprouse5520');
+

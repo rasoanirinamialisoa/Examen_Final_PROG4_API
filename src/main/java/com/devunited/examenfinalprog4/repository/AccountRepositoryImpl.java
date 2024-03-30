@@ -68,6 +68,29 @@ public class AccountRepositoryImpl implements AccountRepository {
         }
     }
 
+    @Override
+    public boolean withdrawFromAccount(int accountId, double amount) throws SQLException {
+        Accounts account = getAccountById(accountId);
+        if (account == null) {
+            throw new SQLException("Compte non trouvé.");
+        }
+
+        double newBalance = account.getBalance() - amount;
+        if (!account.isOverdraftEnabled() && newBalance < 0) {
+            return false;
+        }
+
+        String query = "UPDATE accounts SET balance = ? WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setDouble(1, newBalance);
+            preparedStatement.setInt(2, accountId);
+
+            int affectedRows = preparedStatement.executeUpdate();
+            return affectedRows > 0;
+        }
+    }
+
+
 
     @Override
     public Accounts updateAccount(int id, Accounts account) throws SQLException {
