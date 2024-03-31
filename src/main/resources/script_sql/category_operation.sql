@@ -4,7 +4,6 @@ CREATE TABLE "category_operation"(
 );
 
 INSERT INTO "category_operation" (name) VALUES
-('Groceries'),
 ('Utilities'),
 ('Rent'),
 ('Salary'),

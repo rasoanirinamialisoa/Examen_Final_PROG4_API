@@ -1,6 +1,7 @@
 package com.devunited.examenfinalprog4.controller;
 
 import com.devunited.examenfinalprog4.model.Accounts;
+import com.devunited.examenfinalprog4.repository.AccountTypeRepositoryImpl;
 import com.devunited.examenfinalprog4.service.AccountService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +15,11 @@ import java.util.Map;
 public class AccountController {
 
     private final AccountService accountService;
+    private final AccountTypeRepositoryImpl accountTypeRepositoryImpl;
 
-    public AccountController(AccountService accountService) {
+    public AccountController(AccountService accountService, AccountTypeRepositoryImpl accountTypeRepositoryImpl) {
         this.accountService = accountService;
+        this.accountTypeRepositoryImpl = accountTypeRepositoryImpl;
     }
 
     @GetMapping("/accounts")
@@ -39,26 +42,31 @@ public class AccountController {
         return accountService.updateAccount(id, account);
     }
 
-    @PostMapping("/accounts/withdraw/{id}")
-    public ResponseEntity<?> withdrawFromAccount(@PathVariable int id, @RequestBody Map<String, Double> withdrawalMap) {
-        double amount = withdrawalMap.getOrDefault("amount", 0.0);
-        if (amount <= 0) {
+    @PostMapping("/accounts/withdraw/{typeName}")
+    public ResponseEntity<?> withdrawFromAccount(@PathVariable String typeName, @RequestBody Map<String, Object> withdrawalMap) {
+        Number balanceNumber = (Number) withdrawalMap.getOrDefault("balance", 0.0);
+        double balance = balanceNumber.doubleValue();
+        // Récupérer l'accountId du corps de la requête
+        Number accountIdNumber = (Number) withdrawalMap.getOrDefault("id", 1);
+        int id = accountIdNumber.intValue();
+
+        if (balance <= 0) {
             return ResponseEntity.badRequest().body("Withdrawal amount must be positive.");
         }
 
         try {
-            boolean result = accountService.withdraw(id, amount);
+            // Récupérer l'ID du type de compte à partir du nom
+            int accountTypeId = accountTypeRepositoryImpl.getAccountTypeIdByName(typeName);
+
+            boolean result = accountService.withdraw(id, balance, accountTypeId); // Utilisation de accountId récupéré
             if (result) {
                 return ResponseEntity.ok().body("Withdrawal successful.");
             } else {
-
                 return ResponseEntity.badRequest().body("Withdrawal not authorized due to insufficient funds or overdraft rules.");
             }
         } catch (SQLException e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
-
-
 
 }

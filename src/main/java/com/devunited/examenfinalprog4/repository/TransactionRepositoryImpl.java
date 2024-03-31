@@ -45,13 +45,15 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
     @Override
     public Transactions createTransaction(Transactions transaction) throws SQLException {
-        String query = "INSERT INTO transactions (type, date, amount, id_accounts, id_category_operation) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO transactions (type, date, amount, id_accounts, id_category_operation, transaction_datetime) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, transaction.getType());
-            preparedStatement.setDate(2, Date.valueOf(transaction.getDate()));
+            preparedStatement.setDate(2, Date.valueOf(transaction.getTransactionDateTime().toLocalDate()));
             preparedStatement.setDouble(3, transaction.getAmount());
             preparedStatement.setInt(4, transaction.getId_accounts());
             preparedStatement.setInt(5, transaction.getId_category_operation());
+            preparedStatement.setTimestamp(6, Timestamp.valueOf(transaction.getTransactionDateTime()));
+
 
             int rowsAffected = preparedStatement.executeUpdate();
 
@@ -75,7 +77,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
         String query = "UPDATE transactions SET type = ?, date = ?, amount = ?, id_accounts = ?, id_category_operation = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, transaction.getType());
-            preparedStatement.setDate(2, Date.valueOf(transaction.getDate()));
+            preparedStatement.setDate(2, Date.valueOf(transaction.getTransactionDateTime().toLocalDate()));
             preparedStatement.setDouble(3, transaction.getAmount());
             preparedStatement.setInt(4, transaction.getId_accounts());
             preparedStatement.setInt(5, transaction.getId_category_operation());
@@ -92,7 +94,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
         Transactions transaction = new Transactions();
         transaction.setId(resultSet.getInt(Transactions.ID));
         transaction.setType(resultSet.getString(Transactions.TYPE));
-        transaction.setDate(LocalDate.parse(resultSet.getString(Transactions.DATE)));
+        transaction.setTransactionDateTime(LocalDate.parse(resultSet.getString(Transactions.DATE)).atStartOfDay());
         transaction.setAmount(resultSet.getDouble(Transactions.AMOUNT));
         transaction.setId_accounts(resultSet.getInt(Transactions.ID_ACCOUNTS));
         transaction.setId_category_operation(resultSet.getInt(Transactions.ID_CATEGORY_OPERATION));

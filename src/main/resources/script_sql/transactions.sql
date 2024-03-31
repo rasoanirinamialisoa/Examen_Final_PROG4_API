@@ -1,12 +1,11 @@
 CREATE TABLE "transactions"(
     id                    SERIAL PRIMARY KEY,
     type                  Varchar (50) NOT NULL,
-    date                  Date NOT NULL,
+    date                  Date,
     amount                decimal NOT NULL,
     id_accounts           INT NOT NULL REFERENCES accounts(id),
     id_category_operation INT NOT NULL REFERENCES category_operation(id)
 );
-
 
 INSERT INTO "transactions" (type, date, amount, id_accounts, id_category_operation) VALUES
 ('Deposit', '2023-01-01', 200.00, '11', '4'),
