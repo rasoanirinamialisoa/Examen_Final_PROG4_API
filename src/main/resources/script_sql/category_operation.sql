@@ -1,6 +1,6 @@
 CREATE TABLE "category_operation"(
     id   SERIAL PRIMARY KEY,
-    name Varchar (50) NOT NULL
+    name Varchar (50)
 );
 
 INSERT INTO "category_operation" (name) VALUES

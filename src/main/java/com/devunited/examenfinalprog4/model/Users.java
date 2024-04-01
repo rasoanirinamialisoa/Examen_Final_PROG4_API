@@ -17,6 +17,7 @@ public class Users {
     private double monthly_salary;
     private String email;
     private String password;
+    private int id_accounts;
 
 
 
@@ -27,6 +28,7 @@ public class Users {
     public static final String MONTHLY_SALARY = "monthly_salary";
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
+    public static final String ID_ACCOUNTS = "id_accounts";
 
 
 }

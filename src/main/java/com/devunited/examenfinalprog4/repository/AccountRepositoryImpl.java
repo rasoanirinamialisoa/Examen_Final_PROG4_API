@@ -49,7 +49,7 @@ public class AccountRepositoryImpl implements AccountRepository {
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, account.getAccount_number());
             preparedStatement.setDouble(2, account.getBalance());
-            preparedStatement.setInt(3, account.getId());
+            preparedStatement.setInt(3, account.getUser_id());
             preparedStatement.setInt(4, account.getType_id());
             preparedStatement.setBoolean(5, account.isAllows_overdraft());
             preparedStatement.setDouble(6, account.getOverdraft_credit_percentage());
@@ -101,7 +101,7 @@ public class AccountRepositoryImpl implements AccountRepository {
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, account.getAccount_number());
             preparedStatement.setDouble(2, account.getBalance());
-            preparedStatement.setInt(3, account.getId());
+            preparedStatement.setInt(3, account.getUser_id());
             preparedStatement.setInt(4, account.getType_id());
             preparedStatement.setBoolean(5, account.isAllows_overdraft());
             preparedStatement.setDouble(6, account.getOverdraft_credit_percentage());

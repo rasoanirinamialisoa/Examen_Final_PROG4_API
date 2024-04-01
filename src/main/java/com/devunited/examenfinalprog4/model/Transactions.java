@@ -14,7 +14,7 @@ public class Transactions {
 
     private int id;
     private String type;
-    private LocalDateTime transactionDateTime;
+    private LocalDateTime date;
     private double amount;
     private int id_accounts;
     private int id_category_operation;
@@ -27,11 +27,11 @@ public class Transactions {
     public static final String ID_CATEGORY_OPERATION = "id_category_operation";
 
     public LocalDateTime getTransactionDateTime() {
-        return transactionDateTime;
+        return date;
     }
 
     public void setTransactionDateTime(LocalDateTime transactionDateTime) {
-        this.transactionDateTime = transactionDateTime;
+        this.date = transactionDateTime;
     }
 }
 

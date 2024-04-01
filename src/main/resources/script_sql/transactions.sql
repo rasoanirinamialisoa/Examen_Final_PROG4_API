@@ -1,14 +1,14 @@
 CREATE TABLE "transactions"(
     id                    SERIAL PRIMARY KEY,
-    type                  Varchar (50) NOT NULL,
+    type                  Varchar (50),
     date                  Date,
-    amount                decimal NOT NULL,
-    id_accounts           INT NOT NULL REFERENCES accounts(id),
-    id_category_operation INT NOT NULL REFERENCES category_operation(id)
+    amount                decimal,
+    id_accounts           INT REFERENCES accounts(id),
+    id_category_operation INT REFERENCES category_operation(id)
 );
 
 INSERT INTO "transactions" (type, date, amount, id_accounts, id_category_operation) VALUES
-('Deposit', '2023-01-01', 200.00, '11', '4'),
+('Deposit', '2023-01-01', 200.00, '1', '4');
 ('Withdraw', '2023-02-15', 50.00, '12', '1'),
 ('Deposit', '2023-03-10', 300.00, '13', '4'),
 ('Withdraw', '2023-04-05', 100.00, '14', '5'),

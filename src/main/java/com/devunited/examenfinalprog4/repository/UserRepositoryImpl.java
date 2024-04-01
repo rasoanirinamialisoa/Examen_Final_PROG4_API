@@ -44,7 +44,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Users createUser(Users user) throws SQLException {
-        String query = "INSERT INTO users (first_name, last_name, birth_date, monthly_salary, email, password) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO users (first_name, last_name, birth_date, monthly_salary, email, password, id_accounts) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, user.getLast_name());
             preparedStatement.setString(2, user.getFirst_name());
@@ -52,6 +52,7 @@ public class UserRepositoryImpl implements UserRepository {
             preparedStatement.setDouble(4, user.getMonthly_salary());
             preparedStatement.setString(5, user.getEmail());
             preparedStatement.setString(6, user.getPassword());
+            preparedStatement.setInt(7,user.getId_accounts());
 
             int rowsAffected = preparedStatement.executeUpdate();
 
@@ -72,7 +73,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Users updateUser(int id, Users user) throws SQLException {
-        String query = "UPDATE users SET first_name = ?, last_name = ?, birth_date = ?, monthly_salary = ?, email = ?, password = ? WHERE id = ?";
+        String query = "UPDATE users SET first_name = ?, last_name = ?, birth_date = ?, monthly_salary = ?, email = ?, password = ?, id_accounts = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, user.getFirst_name());
             preparedStatement.setString(2, user.getLast_name());
@@ -80,7 +81,8 @@ public class UserRepositoryImpl implements UserRepository {
             preparedStatement.setDouble(4, user.getMonthly_salary());
             preparedStatement.setString(5, user.getEmail());
             preparedStatement.setString(6, user.getPassword());
-            preparedStatement.setInt(7, id);
+            preparedStatement.setInt(7,user.getId_accounts());
+            preparedStatement.setInt(8, id);
             int updatedRows = preparedStatement.executeUpdate();
             if (updatedRows > 0) {
                 return user;
@@ -98,6 +100,7 @@ public class UserRepositoryImpl implements UserRepository {
         user.setMonthly_salary(resultSet.getDouble(Users.MONTHLY_SALARY));
         user.setEmail(resultSet.getString(Users.EMAIL));
         user.setPassword(resultSet.getString(Users.PASSWORD));
+        user.setId_accounts(resultSet.getInt(Users.ID_ACCOUNTS));
         return user;
     }
 }
