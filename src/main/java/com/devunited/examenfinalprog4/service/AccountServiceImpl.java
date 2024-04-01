@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.devunited.examenfinalprog4.model.Users;
 
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -94,5 +95,8 @@ public class AccountServiceImpl implements AccountService {
         return true;
     }
 
-
+    @Override
+    public void updateAccountBalance(int id, BigDecimal amount) {
+        accountRepository.updateAccountBalance(id, amount);
+    }
 }

@@ -4,6 +4,7 @@ import com.devunited.examenfinalprog4.config.ConnectDatabase;
 import com.devunited.examenfinalprog4.model.Transactions;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -45,15 +46,14 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
     @Override
     public Transactions createTransaction(Transactions transaction) throws SQLException {
-        String query = "INSERT INTO transactions (type, date, amount, id_accounts, id_category_operation, effectve_date, registration_date ) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO transactions (type, amount, id_accounts, id_category_operation, effective_date, registration_date ) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, transaction.getType());
-            preparedStatement.setDate(2, Date.valueOf(transaction.getTransactionDateTime().toLocalDate()));
-            preparedStatement.setDouble(3, transaction.getAmount());
-            preparedStatement.setInt(4, transaction.getId_accounts());
-            preparedStatement.setInt(5, transaction.getId_category_operation());
-            preparedStatement.setDate(6, Date.valueOf(transaction.getEffective_date().toLocalDate()));
-            preparedStatement.setDate(7,Date.valueOf(transaction.getRegistration_date().toLocalDate()));
+            preparedStatement.setDouble(2, transaction.getAmount());
+            preparedStatement.setInt(3, transaction.getId_accounts());
+            preparedStatement.setInt(4, transaction.getId_category_operation());
+            preparedStatement.setDate(5, Date.valueOf(transaction.getEffective_date().toLocalDate()));
+            preparedStatement.setDate(6,Date.valueOf(transaction.getRegistration_date().toLocalDate()));
 
 
             int rowsAffected = preparedStatement.executeUpdate();
@@ -75,7 +75,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
     @Override
     public Transactions updateTransaction(int id, Transactions transaction) throws SQLException {
-        String query = "UPDATE transactions SET type = ?, date = ?, amount = ?, id_accounts = ?, id_category_operation = ?, effectve_date = ?, registration_date = ? WHERE id = ?";
+        String query = "UPDATE transactions SET type = ?, amount = ?, id_accounts = ?, id_category_operation = ?, effective_date = ?, registration_date = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, transaction.getType());
             preparedStatement.setDouble(2, transaction.getAmount());
@@ -90,6 +90,15 @@ public class TransactionRepositoryImpl implements TransactionRepository {
             }
         }
         return null;
+    }
+    @Override
+    public void updateAccountBalance(int id, BigDecimal amount) throws SQLException {
+        String query = "UPDATE accounts SET balance = balance + ? WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setBigDecimal(1, amount);
+            preparedStatement.setLong(2, id);
+            preparedStatement.executeUpdate();
+        }
     }
 
     private Transactions mapResultSetToTransaction(ResultSet resultSet) throws SQLException {

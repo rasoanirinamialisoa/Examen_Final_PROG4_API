@@ -3,9 +3,11 @@ package com.devunited.examenfinalprog4.controller;
 import com.devunited.examenfinalprog4.model.Accounts;
 import com.devunited.examenfinalprog4.repository.AccountTypeRepositoryImpl;
 import com.devunited.examenfinalprog4.service.AccountService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +68,15 @@ public class AccountController {
             }
         } catch (SQLException e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+    @PutMapping("/accounts/{id}/updateBalance")
+    public ResponseEntity<String> updateAccountBalance(@PathVariable int accountId, @RequestParam double amount) {
+        try {
+            accountService.updateAccountBalance(accountId, amount);
+            return ResponseEntity.ok("Account balance updated successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating account balance");
         }
     }
 
