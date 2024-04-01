@@ -45,13 +45,15 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
     @Override
     public Transactions createTransaction(Transactions transaction) throws SQLException {
-        String query = "INSERT INTO transactions (type, date, amount, id_accounts, id_category_operation) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO transactions (type, date, amount, id_accounts, id_category_operation, effectve_date, registration_date ) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, transaction.getType());
             preparedStatement.setDate(2, Date.valueOf(transaction.getTransactionDateTime().toLocalDate()));
             preparedStatement.setDouble(3, transaction.getAmount());
             preparedStatement.setInt(4, transaction.getId_accounts());
             preparedStatement.setInt(5, transaction.getId_category_operation());
+            preparedStatement.setDate(6, Date.valueOf(transaction.getEffective_date().toLocalDate()));
+            preparedStatement.setDate(7,Date.valueOf(transaction.getRegistration_date().toLocalDate()));
 
 
             int rowsAffected = preparedStatement.executeUpdate();
@@ -73,14 +75,15 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
     @Override
     public Transactions updateTransaction(int id, Transactions transaction) throws SQLException {
-        String query = "UPDATE transactions SET type = ?, date = ?, amount = ?, id_accounts = ?, id_category_operation = ? WHERE id = ?";
+        String query = "UPDATE transactions SET type = ?, date = ?, amount = ?, id_accounts = ?, id_category_operation = ?, effectve_date = ?, registration_date = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, transaction.getType());
-            preparedStatement.setDate(2, Date.valueOf(transaction.getTransactionDateTime().toLocalDate()));
-            preparedStatement.setDouble(3, transaction.getAmount());
-            preparedStatement.setInt(4, transaction.getId_accounts());
-            preparedStatement.setInt(5, transaction.getId_category_operation());
-            preparedStatement.setInt(6, id);
+            preparedStatement.setDouble(2, transaction.getAmount());
+            preparedStatement.setInt(3, transaction.getId_accounts());
+            preparedStatement.setInt(4, transaction.getId_category_operation());
+            preparedStatement.setDate(5, Date.valueOf(transaction.getEffective_date().toLocalDate()));
+            preparedStatement.setDate(6,Date.valueOf(transaction.getRegistration_date().toLocalDate()));
+            preparedStatement.setInt(8, id);
             int updatedRows = preparedStatement.executeUpdate();
             if (updatedRows > 0) {
                 return transaction;
@@ -93,10 +96,11 @@ public class TransactionRepositoryImpl implements TransactionRepository {
         Transactions transaction = new Transactions();
         transaction.setId(resultSet.getInt(Transactions.ID));
         transaction.setType(resultSet.getString(Transactions.TYPE));
-        transaction.setDate(LocalDate.parse(resultSet.getString(Transactions.DATE)).atStartOfDay());
         transaction.setAmount(resultSet.getDouble(Transactions.AMOUNT));
         transaction.setId_accounts(resultSet.getInt(Transactions.ID_ACCOUNTS));
         transaction.setId_category_operation(resultSet.getInt(Transactions.ID_CATEGORY_OPERATION));
+        transaction.setEffective_date(LocalDate.parse(resultSet.getString(Transactions.EFFECTIVE_DATE)).atStartOfDay());
+        transaction.setRegistration_date(LocalDate.parse(resultSet.getString(Transactions.REGISTRATION_DATE)).atStartOfDay());
         return transaction;
     }
 
