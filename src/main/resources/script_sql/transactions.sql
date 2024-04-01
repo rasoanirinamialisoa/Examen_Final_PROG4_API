@@ -7,6 +7,14 @@ CREATE TABLE "transactions"(
     id_category_operation INT REFERENCES category_operation(id)
 );
 
+ALTER TABLE transactions
+    ADD COLUMN effective_date TIMESTAMP,
+ADD COLUMN registration_date TIMESTAMP;
+
+ALTER TABLE transactions
+DROP COLUMN date;
+
+
 INSERT INTO "transactions" (type, date, amount, id_accounts, id_category_operation) VALUES
 ('Deposit', '2023-01-01', 200.00, '1', '4');
 ('Withdraw', '2023-02-15', 50.00, '12', '1'),
