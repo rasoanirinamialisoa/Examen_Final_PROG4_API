@@ -11,5 +11,5 @@ public interface TransferRepository {
     Transfers getTransferById(int id) throws SQLException;
 
     Transfers createTransfer(Transfers transfer) throws SQLException;
-    Transfers updateTransfer(String id, Transfers transfer) throws SQLException;
+    Transfers updateTransfer(int id, Transfers transfer) throws SQLException;
 }

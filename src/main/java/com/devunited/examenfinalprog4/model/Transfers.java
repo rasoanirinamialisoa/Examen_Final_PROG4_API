@@ -14,6 +14,8 @@ public class Transfers {
     private boolean other_bank;
     private String other_bank_name;
     private String other_account_number;
+    private boolean executed;
+    private boolean cancelled;
 
     public static final String ID = "id";
     public static final String AMOUNT = "amount";
@@ -21,6 +23,11 @@ public class Transfers {
     public static final String OTHER_BANK = "other_bank";
     public static final String OTHER_BANK_NAME = "other_bank_name";
     public static final String OTHER_ACCOUNT_NUMBER = "other_account_number";
+    public static final String EXECUTED = "executed";
+    public static final String CANCELLED = "cancelled";
+
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
+    }
 
 }
-
