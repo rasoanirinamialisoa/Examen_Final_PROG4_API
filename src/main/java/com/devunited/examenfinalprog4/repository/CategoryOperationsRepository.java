@@ -11,4 +11,6 @@ public interface CategoryOperationsRepository {
     CategoryOperations createCategoryOperations(CategoryOperations categoryOperations) throws SQLException;
     CategoryOperations updateCategoryOperations(int id, CategoryOperations categoryOperations) throws SQLException;
     List<CategoryOperations> findByType(String type) throws SQLException;
+
+    List<CategoryOperations> getCategorySummary(String startDate, String endDate) throws SQLException;
 }

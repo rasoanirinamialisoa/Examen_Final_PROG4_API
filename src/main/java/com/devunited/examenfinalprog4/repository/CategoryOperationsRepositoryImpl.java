@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 
 @Repository
 public class CategoryOperationsRepositoryImpl implements CategoryOperationsRepository {
@@ -101,6 +104,26 @@ public class CategoryOperationsRepositoryImpl implements CategoryOperationsRepos
         }
 
         return categories;
+    }
+
+    @Override
+    public List<CategoryOperations> getCategorySummary(String startDate, String endDate) throws SQLException {
+        List<CategoryOperations> categorySummaries = new ArrayList<>();
+        String query = "SELECT * FROM get_category_summary(?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, startDate);
+            preparedStatement.setString(2, endDate);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    CategoryOperations categoryOperation = mapResultSetToCategoryOperations(resultSet);
+                    categorySummaries.add(categoryOperation);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return categorySummaries;
     }
 
 

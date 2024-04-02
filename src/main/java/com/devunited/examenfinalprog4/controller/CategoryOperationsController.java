@@ -2,6 +2,7 @@ package com.devunited.examenfinalprog4.controller;
 
 import com.devunited.examenfinalprog4.model.CategoryOperations;
 import com.devunited.examenfinalprog4.service.CategoryOperationsService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,4 +44,15 @@ public class CategoryOperationsController {
         List<CategoryOperations> categories = categoryOperationsService.getCategoriesByType(type);
         return ResponseEntity.ok(categories);
     }
+
+    @GetMapping("/category-summary")
+    public ResponseEntity<List<CategoryOperations>> getCategorySummary(@RequestBody DateRangeRequest dateRangeRequest) {
+        try {
+            List<CategoryOperations> categorySummaries = categoryOperationsService.getCategorySummary(dateRangeRequest.getStartDate(), dateRangeRequest.getEndDate());
+            return ResponseEntity.ok(categorySummaries);
+        } catch (SQLException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 }

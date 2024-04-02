@@ -37,5 +37,9 @@ public class CategoryOperationsServiceImpl implements CategoryOperationsService 
     public List<CategoryOperations> getCategoriesByType(String type) throws SQLException {
         return categoryOperationsRepository.findByType(type);
     }
+    @Override
+    public List<CategoryOperations> getCategorySummary(String startDate, String endDate) throws SQLException {
+        return categoryOperationsRepository.getCategorySummary(startDate, endDate);
+    }
 
 }

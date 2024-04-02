@@ -12,4 +12,6 @@ public interface CategoryOperationsService {
     CategoryOperations updateCategoryOperations(int id, CategoryOperations categoryOperations) throws SQLException;
 
     List<CategoryOperations> getCategoriesByType(String type) throws SQLException;
+
+    List<CategoryOperations> getCategorySummary(String startDate, String endDate) throws SQLException;
 }
