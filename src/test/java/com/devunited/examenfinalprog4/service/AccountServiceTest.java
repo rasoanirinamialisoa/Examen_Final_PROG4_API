@@ -23,7 +23,6 @@ public class AccountServiceTest {
     @BeforeEach
     public void setUp() {
         accountRepository = mock(AccountRepository.class);
-        accountService = new AccountServiceImpl(accountRepository);
     }
 
     @Test
@@ -41,7 +40,7 @@ public class AccountServiceTest {
     public void testGetAccountById_Success() throws SQLException {
 
         int accountId = 1;
-        Accounts expectedAccount = new Accounts(1, "1234567890", 100000.00, 1);
+        Accounts expectedAccount = new Accounts(1, "1234567890", 1500.00, 1, 1, true, 0.333, 0.01, 0.02);
         when(accountRepository.getAccountById(accountId)).thenReturn(expectedAccount);
 
         Accounts actualAccount = accountService.getAccountById(accountId);
@@ -52,7 +51,7 @@ public class AccountServiceTest {
     @Test
     public void testCreateAccount_Success() throws SQLException {
 
-        Accounts account = new Accounts(1, "1234567890", 100000.00, 1);
+        Accounts account = new Accounts(1, "1234567890", 1500.00, 1, 1, true, 0.333, 0.01, 0.02);
         when(accountRepository.createAccount(account)).thenReturn(account);
 
         Accounts createdAccount = accountService.createAccount(account);
@@ -64,7 +63,7 @@ public class AccountServiceTest {
     public void testUpdateAccount_Success() throws SQLException {
 
         int accountId = 1;
-        Accounts account = new Accounts(1, "1234567890", 100000.00, 1);
+        Accounts account = new Accounts(1, "1234567890", 1500.00, 1, 1, true, 0.333, 0.01, 0.02);
         when(accountRepository.updateAccount(accountId, account)).thenReturn(account);
 
         Accounts updatedAccount = accountService.updateAccount(accountId, account);

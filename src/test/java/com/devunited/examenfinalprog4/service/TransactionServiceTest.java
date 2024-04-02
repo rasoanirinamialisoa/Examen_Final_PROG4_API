@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,10 +36,12 @@ public class TransactionServiceTest {
     @Test
     public void testGetAllTransactions() throws Exception{
         List<Transactions> transactionsList = new ArrayList<>();
-        transactionsList.add(new Transactions(1, "Deposit", LocalDate.of(2023,
-                1, 1), 100.0, 1, 4));
-        transactionsList.add(new Transactions(2, "Withdraw", LocalDate.of(2023,
-                2, 15), 50.0, 2, 1));
+        transactionsList.add(new Transactions(1, "Deposit", 200.00, 1,
+                4, LocalDateTime.of(2023,1,1,15,20,36),
+                LocalDateTime.of(2023, 1, 1, 15,20,36)));
+        transactionsList.add(new Transactions(2, "Withdraw", 50.0, 1,
+                1, LocalDateTime.of(2023,2,15, 9,15,10),
+                LocalDateTime.of(2023,2,15,9,15,10)));
 
         when(transactionRepository.getAllTransactions()).thenReturn(transactionsList);
 
@@ -51,8 +54,9 @@ public class TransactionServiceTest {
     }
     @Test
     public void testCreateTransaction() throws SQLException {
-        Transactions transactionToAdd = new Transactions(11, "Deposit", LocalDate.now(),
-                10.0, 9, 2);
+        Transactions transactionToAdd = new Transactions(1, "Deposit", 200.00, 1,
+                4, LocalDateTime.of(2023,1,1,15,20,36),
+                LocalDateTime.of(2023, 1, 1, 15,20,36));
         when(transactionRepository.createTransaction(any(Transactions.class))).thenReturn(transactionToAdd);
         Transactions addedTransaction = transactionService.createTransaction(transactionToAdd);
         assertEquals(transactionToAdd, addedTransaction);
@@ -61,8 +65,9 @@ public class TransactionServiceTest {
     @Test
     public void testGetTransactionById() throws SQLException {
         int transactionId = 1;
-        Transactions existingTransaction = new Transactions(1, "Deposit", LocalDate.of(2023,
-                1, 1), 200.0, 1, 4);
+        Transactions existingTransaction = new Transactions(1, "Deposit", 200.00, 1,
+                4, LocalDateTime.of(2023,1,1,15,20,36),
+                LocalDateTime.of(2023, 1, 1, 15,20,36));
 
         when(transactionRepository.getTransactionById(transactionId)).thenReturn(existingTransaction);
 
@@ -75,8 +80,9 @@ public class TransactionServiceTest {
     @Test
     public void testUpdateTransaction() throws SQLException {
         int transactionUpdateId = 11;
-        Transactions transactions = new Transactions(11, "Deposit", LocalDate.now(),
-                10.0, 9, 2);
+        Transactions transactions = new Transactions(1, "Deposit", 200.00, 1,
+                4, LocalDateTime.of(2023,1,1,15,20,36),
+                LocalDateTime.of(2023, 1, 1, 15,20,36));
 
         when(transactionRepository.updateTransaction(transactionUpdateId, transactions)).thenReturn(transactions);
 

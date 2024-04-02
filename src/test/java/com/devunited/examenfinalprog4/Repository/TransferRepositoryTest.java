@@ -32,7 +32,7 @@ public class TransferRepositoryTest {
 
         List<Transfers> simulatedTransfer = new ArrayList<>();
         simulatedTransfer.add(new Transfers(1, 100.00, false, true,
-                "BOA", "2345678901"));
+                "BOA", "2345678901", true, false));
 
         when(transferRepository.getAllTransfers()).thenReturn(simulatedTransfer);
     }
@@ -42,9 +42,9 @@ public class TransferRepositoryTest {
     public void testGetAllTransfer_ReturnsListOfTransfer() throws SQLException {
         List<Transfers> simulatedTransfer = new ArrayList<>();
         simulatedTransfer.add(new Transfers(1, 100.00,  false, true,
-                "BOA", "2345678901"));
+                "BOA", "2345678901", false, true));
         simulatedTransfer.add(new Transfers(2,  150.00, true, false,
-                " ", "3456789012"));
+                " ", "3456789012", true, true));
 
         when(transferRepository.getAllTransfers()).thenReturn(simulatedTransfer);
 
@@ -88,7 +88,8 @@ public class TransferRepositoryTest {
                         Transfers argTransfer = invocation.getArgument(0);
                         return new Transfers(6, argTransfer.getAmount(),
                                 argTransfer.isSame_bank(),argTransfer.isOther_bank(),
-                                argTransfer.getOther_bank_name(), argTransfer.getOther_account_number());
+                                argTransfer.getOther_bank_name(), argTransfer.getOther_account_number(),
+                                argTransfer.isExecuted(), argTransfer.isCancelled());
                     });
 
             Transfers createdTransfer = transferRepositoryImpl.createTransfer(newTransfer);
@@ -111,11 +112,11 @@ public class TransferRepositoryTest {
     public void testUpdateTransfer_ValidData_ReturnsUpdatedTransfer() throws SQLException {
         int transferIdToUpdate = 6;
         Transfers updatedTransfer = new Transfers(transferIdToUpdate, 600.00,
-                true, false, " Other", "6789012345");
+                true, false, " Other", "6789012345",true, false);
 
-        when(transferRepository.updateTransfer(String.valueOf(transferIdToUpdate), updatedTransfer)).thenReturn(updatedTransfer);
+        when(transferRepository.updateTransfer((transferIdToUpdate), updatedTransfer)).thenReturn(updatedTransfer);
 
-        Transfers result = transferRepositoryImpl.updateTransfer(String.valueOf(transferIdToUpdate), updatedTransfer);
+        Transfers result = transferRepositoryImpl.updateTransfer((transferIdToUpdate), updatedTransfer);
 
         assertThat(result).isNotNull();
         assertThat(result.getId()).isEqualTo(transferIdToUpdate);
@@ -132,9 +133,9 @@ public class TransferRepositoryTest {
         try {
             int transferIdToUpdate = 6;
             Transfers updatedTransfer = new Transfers(transferIdToUpdate, 600.00,
-                    true, false, " ", "6789012345");
+                    true, false, " ", "6789012345", true, true);
 
-            Transfers result = transferRepositoryImpl.updateTransfer(String.valueOf(transferIdToUpdate), updatedTransfer);
+            Transfers result = transferRepositoryImpl.updateTransfer((transferIdToUpdate), updatedTransfer);
 
             assertThat(result).isNotNull();
             assertThat(result.getAmount()).isEqualTo(600.00);

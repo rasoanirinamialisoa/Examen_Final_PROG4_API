@@ -41,8 +41,8 @@ public class TransferControllerTest {
     public void testGetTransferById_Success() throws Exception {
 
         int transferId = 1;
-        Transfers transfers = new Transfers(1, 100.00, false,
-                true, "BOA", "2345678901");
+        Transfers transfers = new Transfers(1, 100.00,  false, true,
+                "BOA", "2345678901", false, true);
         when(transferService.getTransferById(transferId)).thenReturn(transfers);
 
         mockMvc.perform(get("/api/transfers/{id}", transferId))
@@ -53,8 +53,8 @@ public class TransferControllerTest {
     @Test
     public void testAddTransfer_Success() throws Exception {
 
-        Transfers transfers = new Transfers(6, 350.00, true, false,
-                " ", "7890123456");
+        Transfers transfers = new Transfers(4, 100.00,  false, true,
+                "BOA", "2345678901", false, true);
         when(transferService.createTransfer(any(Transfers.class))).thenReturn(transfers);
 
         mockMvc.perform(post("/api/transfers")
@@ -69,9 +69,9 @@ public class TransferControllerTest {
     public void testUpdateTransfer_Success() throws Exception {
 
         int updateTransferId = 6;
-        Transfers transfers = new Transfers(6, 350.00, true, false,
-                " ", "7890123456");
-        when(transferService.updateTransfer(String.valueOf(eq(updateTransferId)), any(Transfers.class))).thenReturn(transfers);
+        Transfers transfers = new Transfers(1, 100.00,  false, true,
+                "BOA", "2345678901", false, true);
+        when(transferService.updateTransfer((eq(updateTransferId)), any(Transfers.class))).thenReturn(transfers);
 
         mockMvc.perform(put("/api/transfers/{id}", updateTransferId)
                         .contentType("application/json")

@@ -40,8 +40,8 @@ public class TransferServiceTest {
     public void testGetTransferById_Success() throws SQLException {
 
         int transferId = 1;
-        Transfers expectedTransfer = new Transfers(1, 100.00, false,
-                true, "BOA", "2345678901");
+        Transfers expectedTransfer = new Transfers(1, 100.00,  false, true,
+                "BOA", "2345678901", false, true);
         when(transferRepository.getTransferById(transferId)).thenReturn(expectedTransfer);
 
         Transfers actualTransfer = transferService.getTransferById(transferId);
@@ -52,8 +52,8 @@ public class TransferServiceTest {
     @Test
     public void testCreateTransfer_Success() throws SQLException {
 
-        Transfers transfer = new Transfers(6, 350.00, true, false,
-                " ", "7890123456");
+        Transfers transfer = new Transfers(1, 100.00,  false, true,
+                "BOA", "2345678901", false, true);
         when(transferRepository.createTransfer(transfer)).thenReturn(transfer);
 
         Transfers createdTransfer = transferService.createTransfer(transfer);
@@ -65,11 +65,11 @@ public class TransferServiceTest {
     public void testUpdateTransfer_Success() throws SQLException {
 
         int updateTransferId = 6;
-        Transfers transfers = new Transfers(6, 350.00, true, false,
-                " ", "7890123456");
-        when(transferRepository.updateTransfer(String.valueOf(updateTransferId), transfers)).thenReturn(transfers);
+        Transfers transfers = new Transfers(1, 100.00,  false, true,
+                "BOA", "2345678901", false, true);
+        when(transferRepository.updateTransfer((updateTransferId), transfers)).thenReturn(transfers);
 
-        Transfers updatedTransfer = transferService.updateTransfer(String.valueOf(updateTransferId), transfers);
+        Transfers updatedTransfer = transferService.updateTransfer((updateTransferId), transfers);
 
         assertEquals(transfers, updatedTransfer);
     }

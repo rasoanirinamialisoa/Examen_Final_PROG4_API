@@ -42,7 +42,7 @@ public class AccountControllerTest {
     public void testGetAccountById_Success() throws Exception {
 
         int accountId = 1;
-        Accounts account = new Accounts(1, "1234567890", 100000.00, 1);
+        Accounts account = new Accounts(1, "1234567890", 1500.00, 1, 1, true, 0.333, 0.01, 0.02);
         when(accountService.getAccountById(accountId)).thenReturn(account);
 
         mockMvc.perform(get("/api/accounts/{id}", accountId))
@@ -53,7 +53,7 @@ public class AccountControllerTest {
     @Test
     public void testAddAccount_Success() throws Exception {
 
-        Accounts account = new Accounts(1, "1234567890", 100000.00, 1);
+        Accounts account = new Accounts(1, "1234567890", 1500.00, 1, 1, true, 0.333, 0.01, 0.02);
         when(accountService.createAccount(any(Accounts.class))).thenReturn(account);
 
         mockMvc.perform(post("/api/accounts")
@@ -67,7 +67,7 @@ public class AccountControllerTest {
     public void testUpdateAccount_Success() throws Exception {
 
         int accountId = 1;
-        Accounts account = new Accounts(1, "1234567890", 100000.00, 1);
+        Accounts account = new Accounts(1, "1234567890", 1500.00, 1, 1, true, 0.333, 0.01, 0.02);
         when(accountService.updateAccount(eq(accountId), any(Accounts.class))).thenReturn(account);
 
         mockMvc.perform(put("/api/accounts/{id}", accountId)

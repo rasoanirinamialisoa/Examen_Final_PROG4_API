@@ -71,12 +71,15 @@ public class AccountRepositoryTest {
         Accounts newAccount = new Accounts();
         try {
             when(accountRepository.createAccount(any(Accounts.class)))
-                    .thenReturn(new Accounts(4, newAccount.getAccount_number(), newAccount.getBalance(), newAccount.getUser_id()));
+                    .thenReturn(new Accounts(1, newAccount.getAccount_number(), newAccount.getBalance(),
+                            newAccount.getUser_id(), newAccount.getType_id(), newAccount.isAllows_overdraft(),
+                            newAccount.getOverdraft_credit_percentage(), newAccount.getInterest_rate_7_days(),
+                            newAccount.getInterest_rate_after_7_days()));
 
             Accounts createdAccount = accountRepositoryImpl.createAccount(newAccount);
 
             assertThat(createdAccount).isNotNull();
-            assertThat(createdAccount.getId()).isEqualTo(4);
+            assertThat(createdAccount.getId()).isEqualTo(1);
         } catch (SQLException e) {
             e.printStackTrace();
             fail("SQLException occurred during test execution");

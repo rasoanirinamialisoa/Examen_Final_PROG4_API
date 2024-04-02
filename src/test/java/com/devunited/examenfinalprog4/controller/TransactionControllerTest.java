@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,15 +33,14 @@ public class TransactionControllerTest {
     @MockBean
     private TransactionService transactionService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Test
     void getAllTransactions_ReturnsListOfTransactions() throws Exception {
-        Transactions transaction1 = new Transactions(1, "Deposit", LocalDate.now(),
-                200.0, 1, 4);
-        Transactions transaction2 = new Transactions(2, "Withdraw", LocalDate.now(),
-                50.0, 1, 1);
+        Transactions transaction1 = new Transactions(1, "Deposit",
+                200.00, 1, 4, LocalDateTime.of(2023,1,1,15,20,36),
+                LocalDateTime.of(2023, 1, 1, 15,20,36));
+        Transactions transaction2 = new Transactions(2, "Withdraw", 50.0, 1, 1,
+                LocalDateTime.of(2023,2,15, 9,15,10),
+                LocalDateTime.of(2023,2,15,9,15,10));
         List<Transactions> transactionsList = Arrays.asList(transaction1, transaction2);
 
         when(transactionService.getAllTransactions()).thenReturn(transactionsList);
@@ -59,8 +59,9 @@ public class TransactionControllerTest {
     void getTransactionById_ReturnsTransaction() throws Exception {
 
         int transactionId = 1;
-        Transactions transaction = new Transactions(transactionId, "Deposit", LocalDate.now(),
-                200.0, 1, 4);
+        Transactions transaction = new Transactions(transactionId,  "Deposit",
+                200.00, 1, 4, LocalDateTime.of(2023,1,1,15,20,36),
+                LocalDateTime.of(2023, 1, 1, 15,20,36));
 
         when(transactionService.getTransactionById(transactionId)).thenReturn(transaction);
 
@@ -73,8 +74,9 @@ public class TransactionControllerTest {
 
     @Test
     void addTransaction_ReturnsAddedTransaction() throws Exception {
-        Transactions transactions = new Transactions(11, "Deposit", LocalDate.of(2023, 6, 12),
-                10.00, 1, 2);
+        Transactions transactions = new Transactions(1, "Deposit",
+                200.00, 1, 4, LocalDateTime.of(2023,1,1,15,20,36),
+                LocalDateTime.of(2023, 1, 1, 15,20,36));
         when(transactionService.createTransaction(any(Transactions.class))).thenReturn(transactions);
 
         mockMvc.perform(post("/api/transactions")
@@ -88,8 +90,9 @@ public class TransactionControllerTest {
     @Test
     void updateTransaction_ReturnsUpdatedTransaction() throws Exception {
         int transactionId = 11;
-        Transactions updatedTransaction = new Transactions(transactionId, "Deposit", LocalDate.now(),
-                200.0, 1, 2);
+        Transactions updatedTransaction = new Transactions(transactionId, "Deposit",
+                200.00, 1, 4, LocalDateTime.of(2023,1,1,15,20,36),
+                LocalDateTime.of(2023, 1, 1, 15,20,36));
 
         when(transactionService.updateTransaction(eq(transactionId), any(Transactions.class)))
                 .thenReturn(updatedTransaction);

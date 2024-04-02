@@ -11,7 +11,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,10 +32,12 @@ public class TransactionRepositoryTest {
         MockitoAnnotations.openMocks(this);
 
         List<Transactions> simulatedTransactions = new ArrayList<>();
-        simulatedTransactions.add(new Transactions(1, "Deposit", LocalDate.of(2023, 1,
-                1), 200.0, 1, 4));
-        simulatedTransactions.add(new Transactions(2, "Withdraw", LocalDate.of(2023, 2 ,
-                15), 50.0, 1, 1));
+        simulatedTransactions.add(new Transactions(1, "Deposit", 200.00, 1,
+                4, LocalDateTime.of(2023,1,1,15,20,36),
+                LocalDateTime.of(2023, 1, 1, 15,20,36)));
+        simulatedTransactions.add(new Transactions(2, "Withdraw", 50.0, 1,
+                1, LocalDateTime.of(2023,2,15, 9,15,10),
+                LocalDateTime.of(2023,2,15,9,15,10)));
 
         when(transactionRepository.getAllTransactions()).thenReturn(simulatedTransactions);
     }
@@ -44,8 +46,12 @@ public class TransactionRepositoryTest {
     @Test
     public void testGetAllTransactions_ReturnsListOfTransactions() throws SQLException {
         List<Transactions> simulatedTransactions = new ArrayList<>();
-        simulatedTransactions.add(new Transactions(1, "Type1", LocalDate.now(), 100.0, 1, 1));
-        simulatedTransactions.add(new Transactions(2, "Type2", LocalDate.now(), 200.0, 2, 2));
+        simulatedTransactions.add(new Transactions(1, "Deposit", 200.00, 1,
+                4, LocalDateTime.of(2023,1,1,15,20,36),
+                LocalDateTime.of(2023, 1, 1, 15,20,36)));
+        simulatedTransactions.add(new Transactions(2, "Withdraw", 50.0, 1,
+                1, LocalDateTime.of(2023,2,15, 9,15,10),
+                LocalDateTime.of(2023,2,15,9,15,10)));
 
         when(transactionRepository.getAllTransactions()).thenReturn(simulatedTransactions);
 
@@ -76,21 +82,21 @@ public class TransactionRepositoryTest {
     @Test
     public void testCreateTransaction_ReturnsCreatedTransaction() {
         try {
-            LocalDate transactionDate = LocalDate.of(2024, 3, 30);
+            LocalDateTime transactionDate = LocalDateTime.of(2023,1,1,15,20,36);
 
             Transactions newTransaction = new Transactions();
             newTransaction.setType("Deposit");
-            newTransaction.setDate(transactionDate);
+            newTransaction.setEffective_date(transactionDate);
             newTransaction.setAmount(100.0);
             newTransaction.setId_accounts(1);
-            newTransaction.setId_category_operation(1);
+            newTransaction.setId_category_operation(4);
 
             when(transactionRepository.createTransaction(any(Transactions.class)))
                     .thenAnswer(invocation -> {
                         Transactions argTransaction = invocation.getArgument(0);
-                        return new Transactions(5, argTransaction.getType(), argTransaction.getDate(),
-                                argTransaction.getAmount(), argTransaction.getId_accounts(),
-                                argTransaction.getId_category_operation());
+                        return new Transactions(4, argTransaction.getType(), argTransaction.getAmount(),
+                                argTransaction.getId_accounts(), argTransaction.getId_category_operation(),
+                                argTransaction.getRegistration_date(), argTransaction.getEffective_date());
                     });
 
             Transactions createdTransaction = transactionRepositoryImpl.createTransaction(newTransaction);
@@ -98,10 +104,11 @@ public class TransactionRepositoryTest {
             assertThat(createdTransaction).isNotNull();
             assertThat(createdTransaction.getId()).isPositive();
             assertThat(createdTransaction.getType()).isEqualTo(newTransaction.getType());
-            assertThat(createdTransaction.getDate()).isEqualTo(newTransaction.getDate());
             assertThat(createdTransaction.getAmount()).isEqualTo(newTransaction.getAmount());
             assertThat(createdTransaction.getId_accounts()).isEqualTo(newTransaction.getId_accounts());
             assertThat(createdTransaction.getId_category_operation()).isEqualTo(newTransaction.getId_category_operation());
+            assertThat(createdTransaction.getEffective_date()).isEqualTo(newTransaction.getEffective_date());
+            assertThat(createdTransaction.getRegistration_date()).isEqualTo(newTransaction.getRegistration_date());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -112,8 +119,9 @@ public class TransactionRepositoryTest {
     @Test
     public void testUpdateTransaction_ValidData_ReturnsUpdatedTransaction() throws SQLException {
         int transactionIdToUpdate = 10;
-        Transactions updatedTransaction = new Transactions(transactionIdToUpdate, "Deposit",
-                LocalDate.now(), 10.0, 9, 2);
+        Transactions updatedTransaction = new Transactions(transactionIdToUpdate, "Deposit", 10.0, 9, 2,
+                LocalDateTime.of(2023, 2,1,13,1,40),
+                LocalDateTime.of(2023,2,1,13,10,10));
 
         when(transactionRepository.updateTransaction(transactionIdToUpdate, updatedTransaction)).thenReturn(updatedTransaction);
 
@@ -122,7 +130,6 @@ public class TransactionRepositoryTest {
         assertThat(result).isNotNull();
         assertThat(result.getId()).isEqualTo(transactionIdToUpdate);
         assertThat(result.getAmount()).isEqualTo(updatedTransaction.getAmount());
-        assertThat(result.getDate()).isEqualTo(updatedTransaction.getDate());
         assertThat(result.getType()).isEqualTo(updatedTransaction.getType());
         assertThat(result.getId_accounts()).isEqualTo(updatedTransaction.getId_accounts());
         assertThat(result.getId_category_operation()).isEqualTo(updatedTransaction.getId_category_operation());
@@ -133,8 +140,9 @@ public class TransactionRepositoryTest {
     public void testUpdateTransaction_SQLException_ThrowsException() {
         try {
             int transactionIdToUpdate = 10;
-            Transactions updatedTransaction = new Transactions(transactionIdToUpdate, "Deposit",
-                    LocalDate.now(), 10.0, 9, 2);
+            Transactions updatedTransaction = new Transactions(transactionIdToUpdate, "Deposit", 10.0, 9, 2,
+                    LocalDateTime.of(2023, 2,1,13,1,40),
+                    LocalDateTime.of(2023,2,1,13,10,10));
 
             Transactions result = transactionRepositoryImpl.updateTransaction(transactionIdToUpdate, updatedTransaction);
 
