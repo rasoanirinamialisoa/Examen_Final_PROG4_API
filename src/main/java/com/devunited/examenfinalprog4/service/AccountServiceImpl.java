@@ -13,6 +13,7 @@ import com.devunited.examenfinalprog4.model.Users;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -96,7 +97,30 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void updateAccountBalance(int id, BigDecimal amount) {
-        accountRepository.updateAccountBalance(id, amount);
+    public Accounts updateAccountBalance(int id, double balance) throws SQLException {
+        try {
+            // Récupérer le compte à partir de l'ID
+            Optional<Accounts> optionalAccount = Optional.ofNullable(accountRepository.getAccountById(id));
+            if (optionalAccount.isPresent()) {
+                Accounts account = optionalAccount.get();
+
+                // Récupérer le solde actuel
+                double currentBalance = account.getBalance();
+
+                // Calculer le nouveau solde en ajoutant le montant spécifié
+                double updatedBalance = currentBalance + balance;
+
+                // Mettre à jour le solde dans l'objet Account
+                account.setBalance(updatedBalance);
+
+                // Mettre à jour le compte dans la base de données
+                return accountRepository.updateAccountBalance(id, balance);
+            } else {
+                throw new RuntimeException("Account not found");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error to update the accounts", e);
+        }
     }
+
 }

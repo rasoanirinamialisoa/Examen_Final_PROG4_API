@@ -73,6 +73,7 @@ public class AccountRepositoryImpl implements AccountRepository {
         }
     }
 
+
     @Override
     public boolean withdrawFromAccount(int accountId, double amount) throws SQLException {
         Accounts account = getAccountById(accountId);
@@ -93,6 +94,18 @@ public class AccountRepositoryImpl implements AccountRepository {
             int affectedRows = preparedStatement.executeUpdate();
             return affectedRows > 0;
         }
+    }
+
+
+    @Override
+    public Accounts updateAccountBalance(int id, double balance) throws SQLException {
+        String query = "UPDATE accounts SET balance = balance + ? WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setDouble(1, balance);
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+        }
+        return null;
     }
 
     @Override

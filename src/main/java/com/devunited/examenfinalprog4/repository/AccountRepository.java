@@ -13,5 +13,5 @@ public interface AccountRepository {
     Accounts createAccount(Accounts account) throws SQLException;
     Accounts updateAccount(int id, Accounts account) throws SQLException;
     boolean withdrawFromAccount(int accountId, double amount) throws SQLException;
-    void updateAccountBalance(int id, double amount);
+    Accounts updateAccountBalance(int id, double balance) throws SQLException;
 }

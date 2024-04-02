@@ -70,10 +70,11 @@ public class AccountController {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
-    @PutMapping("/accounts/{id}/updateBalance")
-    public ResponseEntity<String> updateAccountBalance(@PathVariable int accountId, @RequestParam double amount) {
+    @PutMapping("/accounts/updateBalance/{id}")
+    public ResponseEntity<String> updateAccountBalance(@PathVariable int id, @RequestBody Map<String, Double> requestBody) {
         try {
-            accountService.updateAccountBalance(accountId, amount);
+            double balance = requestBody.get("balance");
+            accountService.updateAccountBalance(id, balance);
             return ResponseEntity.ok("Account balance updated successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating account balance");
