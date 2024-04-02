@@ -31,7 +31,24 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public Transfers updateTransfer(String id, Transfers transfer) throws SQLException {
+    public Transfers updateTransfer(int id, Transfers transfer) throws SQLException {
         return transferRepository.updateTransfer(id, transfer);
     }
+
+    @Override
+    public boolean cancelTransfer(int id) {
+        try {
+            Transfers transfer = transferRepository.getTransferById(id);
+            if (transfer != null && !transfer.isExecuted()) {
+                transfer.setCancelled(true);
+                transferRepository.updateTransfer(id, transfer);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
 }

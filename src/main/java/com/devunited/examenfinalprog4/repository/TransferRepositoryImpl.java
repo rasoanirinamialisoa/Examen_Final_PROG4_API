@@ -72,7 +72,7 @@ public class TransferRepositoryImpl implements TransferRepository {
     }
 
     @Override
-    public Transfers updateTransfer(String id, Transfers transfer) throws SQLException {
+    public Transfers updateTransfer(int id, Transfers transfer) throws SQLException {
         String query = "UPDATE transfers SET amount = ?, same_bank = ?, other_bank = ?, other_bank_name = ?, other_account_number = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setDouble(1, transfer.getAmount());
@@ -80,7 +80,7 @@ public class TransferRepositoryImpl implements TransferRepository {
             preparedStatement.setBoolean(3, transfer.isOther_bank());
             preparedStatement.setString(4, transfer.getOther_bank_name());
             preparedStatement.setString(4, transfer.getOther_account_number());
-            preparedStatement.setString(6, id);
+            preparedStatement.setInt(6, id);
             int updatedRows = preparedStatement.executeUpdate();
             if (updatedRows > 0) {
                 return transfer;

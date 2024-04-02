@@ -11,17 +11,24 @@ import java.util.Date;
 @AllArgsConstructor
 public class Users {
     private int id;
-    private String name;
-    private String username;
-    private LocalDate birthday;
+    private String first_name;
+    private String last_name;
+    private LocalDate birth_date;
+    private double monthly_salary;
     private String email;
     private String password;
+    private int id_accounts;
+
+
 
     public static final String ID = "id";
-    public static final String NAME = "name";
-    public static final String USERNAME = "username";
-    public static final String BIRTHDAY = "birthday";
+    public static final String NAME = "first_name";
+    public static final String USERNAME = "last_name";
+    public static final String BIRTHDAY = "birth_date";
+    public static final String MONTHLY_SALARY = "monthly_salary";
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
+    public static final String ID_ACCOUNTS = "id_accounts";
+
 
 }

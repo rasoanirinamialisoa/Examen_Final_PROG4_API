@@ -2,6 +2,7 @@ package com.devunited.examenfinalprog4.controller;
 
 import com.devunited.examenfinalprog4.model.Transfers;
 import com.devunited.examenfinalprog4.service.TransferService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -34,7 +35,16 @@ public class TransferController {
     }
 
     @PutMapping("/transfers/{id}")
-    public Transfers updateTransfer(@PathVariable String id, @RequestBody Transfers transfer) throws SQLException {
+    public Transfers updateTransfer(@PathVariable int id, @RequestBody Transfers transfer) throws SQLException {
         return transferService.updateTransfer(id, transfer);
+    }
+    @PutMapping("/transfers/cancel/{id}")
+    public ResponseEntity<String> cancelTransfer(@PathVariable int id) throws SQLException {
+        boolean success = transferService.cancelTransfer(id);
+        if (success) {
+            return ResponseEntity.ok("Transfer cancelled successfully");
+        } else {
+            return ResponseEntity.badRequest().body("Unable to cancel transfer");
+        }
     }
 }
