@@ -13,3 +13,5 @@ INSERT INTO "category_operation" (name) VALUES
 ('Healthcare'),
 ('Insurance'),
 ('Investments');
+
+ALTER TABLE category_operation ADD description VARCHAR(100);

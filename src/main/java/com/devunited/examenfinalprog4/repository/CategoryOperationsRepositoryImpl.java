@@ -44,10 +44,10 @@ public class CategoryOperationsRepositoryImpl implements CategoryOperationsRepos
 
     @Override
     public CategoryOperations createCategoryOperations(CategoryOperations categoryOperations) throws SQLException {
-        String query = "INSERT INTO category_operation (name) VALUES (?)";
+        String query = "INSERT INTO category_operation (name, description) VALUES (?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, categoryOperations.getName());
-
+            preparedStatement.setString(2,categoryOperations.getDescription());
             int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected > 0) {
@@ -67,10 +67,11 @@ public class CategoryOperationsRepositoryImpl implements CategoryOperationsRepos
 
     @Override
     public CategoryOperations updateCategoryOperations(int id, CategoryOperations categoryOperations) throws SQLException {
-        String query = "UPDATE category_operation SET name = ? WHERE id = ?";
+        String query = "UPDATE category_operation SET name = ?, description = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, categoryOperations.getName());
-            preparedStatement.setInt(2, id);
+            preparedStatement.setString(2,categoryOperations.getDescription());
+            preparedStatement.setInt(3, id);
             int updatedRows = preparedStatement.executeUpdate();
             if (updatedRows > 0) {
                 return categoryOperations;
@@ -83,6 +84,7 @@ public class CategoryOperationsRepositoryImpl implements CategoryOperationsRepos
         CategoryOperations categoryOperation = new CategoryOperations();
         categoryOperation.setId(resultSet.getInt(CategoryOperations.ID));
         categoryOperation.setName(resultSet.getString(CategoryOperations.NAME));
+        categoryOperation.setDescription(resultSet.getString(CategoryOperations.DESCRIPTION));
         return categoryOperation;
     }
 }
