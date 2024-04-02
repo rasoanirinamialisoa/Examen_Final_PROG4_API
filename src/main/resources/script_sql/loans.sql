@@ -1,12 +1,12 @@
 CREATE TABLE "loans"(
     id            SERIAL PRIMARY KEY,
-    amount        decimal NOT NULL,
-    interest_rate decimal NOT NULL,
-    start_date    Date NOT NULL,
-    end_date      Date NOT NULL,
-    status        Varchar (50) NOT NULL,
-    creation_date Date NOT NULL,
-    update_date   Date NOT NULL,
+    amount        decimal ,
+    interest_rate decimal ,
+    start_date    Date ,
+    end_date      Date ,
+    status        Varchar (50) ,
+    creation_date Date ,
+    update_date   Date ,
     id_accounts   INT NOT NULL REFERENCES accounts(id)
 );
 
