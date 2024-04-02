@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -104,4 +106,40 @@ public class AccountRepositoryTest {
             fail("SQLException occurred during test execution");
         }
     }
+    @Test
+    public void testWithdrawFromAccount_ValidData_ReturnsTrue() {
+        int accountId = 1;
+        double withdrawalAmount = 500.00;
+        Accounts account = new Accounts(accountId, "1234567890", 1500.00, 1, 1, true, 0.333, 0.01, 0.02);
+
+        try {
+            when(accountRepositoryImpl.getAccountById(accountId)).thenReturn(account);
+            boolean result = accountRepositoryImpl.withdrawFromAccount(accountId, withdrawalAmount);
+
+            assertThat(result).isTrue();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            fail("SQLException occurred during test execution");
+        }
+    }
+
+    @Test
+    public void testUpdateAccountBalance_ValidData_ReturnsUpdatedAccount() {
+        int accountId = 1;
+        double newBalance = 2000.00;
+
+        try {
+            Accounts accounts = new Accounts();
+            when(accountRepository.updateAccountBalance(accountId, newBalance)).thenReturn(accounts);
+
+            Accounts result = accountRepositoryImpl.updateAccountBalance(accountId, newBalance);
+
+            assertThat(result).isNotNull();
+            assertThat(result.getBalance()).isEqualTo(newBalance);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            fail("SQLException occurred during test execution");
+        }
+    }
+
 }

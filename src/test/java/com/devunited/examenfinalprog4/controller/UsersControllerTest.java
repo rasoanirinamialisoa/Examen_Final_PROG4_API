@@ -10,13 +10,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
-import static jdk.internal.org.jline.utils.InfoCmp.Capability.user1;
 import static org.hamcrest.Matchers.hasSize;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -63,16 +61,16 @@ public class UsersControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(users.size())))
-                .andExpect(jsonPath("$[0].name").value(user1.getNames()))
-                .andExpect(jsonPath("$[1].name").value(user2.getFirst_name()))
-                .andExpect(jsonPath("$[2].name").value(user3.getFirst_name()))
-                .andExpect(jsonPath("$[3].name").value(user4.getFirst_name()))
-                .andExpect(jsonPath("$[4].name").value(user5.getFirst_name()))
-                .andExpect(jsonPath("$[5].name").value(user6.getFirst_name()))
-                .andExpect(jsonPath("$[6].name").value(user7.getFirst_name()))
-                .andExpect(jsonPath("$[7].name").value(user8.getFirst_name()))
-                .andExpect(jsonPath("$[8].name").value(user9.getFirst_name()))
-                .andExpect(jsonPath("$[9].name").value(user10.getFirst_name()));
+                .andExpect(jsonPath("$[0].name").value(user2.getFirst_name()))
+                .andExpect(jsonPath("$[1].name").value(user3.getFirst_name()))
+                .andExpect(jsonPath("$[2].name").value(user4.getFirst_name()))
+                .andExpect(jsonPath("$[3].name").value(user5.getFirst_name()))
+                .andExpect(jsonPath("$[4].name").value(user6.getFirst_name()))
+                .andExpect(jsonPath("$[5].name").value(user7.getFirst_name()))
+                .andExpect(jsonPath("$[6].name").value(user8.getFirst_name()))
+                .andExpect(jsonPath("$[7].name").value(user9.getFirst_name()))
+                .andExpect(jsonPath("$[8].name").value(user10.getFirst_name()));
+
     }
     @Test
     public void givenUser_whenGetUserById_thenReturnJson() throws Exception {
