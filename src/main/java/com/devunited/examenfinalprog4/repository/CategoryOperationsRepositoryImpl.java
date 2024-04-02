@@ -44,7 +44,7 @@ public class CategoryOperationsRepositoryImpl implements CategoryOperationsRepos
 
     @Override
     public CategoryOperations createCategoryOperations(CategoryOperations categoryOperations) throws SQLException {
-        String query = "INSERT INTO category_operation (name, description) VALUES (?, ?)";
+        String query = "INSERT INTO category_operation (name, description, type) VALUES (?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, categoryOperations.getName());
             preparedStatement.setString(2,categoryOperations.getDescription());
@@ -67,7 +67,7 @@ public class CategoryOperationsRepositoryImpl implements CategoryOperationsRepos
 
     @Override
     public CategoryOperations updateCategoryOperations(int id, CategoryOperations categoryOperations) throws SQLException {
-        String query = "UPDATE category_operation SET name = ?, description = ? WHERE id = ?";
+        String query = "UPDATE category_operation SET name = ?, description = ?, type = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, categoryOperations.getName());
             preparedStatement.setString(2,categoryOperations.getDescription());
@@ -85,6 +85,7 @@ public class CategoryOperationsRepositoryImpl implements CategoryOperationsRepos
         categoryOperation.setId(resultSet.getInt(CategoryOperations.ID));
         categoryOperation.setName(resultSet.getString(CategoryOperations.NAME));
         categoryOperation.setDescription(resultSet.getString(CategoryOperations.DESCRIPTION));
+        categoryOperation.setType(resultSet.getString(CategoryOperations.TYPE));
         return categoryOperation;
     }
 }

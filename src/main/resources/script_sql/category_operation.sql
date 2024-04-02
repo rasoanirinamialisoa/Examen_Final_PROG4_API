@@ -15,3 +15,5 @@ INSERT INTO "category_operation" (name) VALUES
 ('Investments');
 
 ALTER TABLE category_operation ADD description VARCHAR(100);
+ALTER TABLE category_operation ADD COLUMN type VARCHAR(255);
+
