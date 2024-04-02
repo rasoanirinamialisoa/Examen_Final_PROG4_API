@@ -1,6 +1,8 @@
 CREATE TABLE "category_operation"(
     id   SERIAL PRIMARY KEY,
-    name Varchar (50)
+    name Varchar (50),
+    description varchar ( 100),
+    type varchar (255)
 );
 
 INSERT INTO "category_operation" (name) VALUES
@@ -13,7 +15,4 @@ INSERT INTO "category_operation" (name) VALUES
 ('Healthcare'),
 ('Insurance'),
 ('Investments');
-
-ALTER TABLE category_operation ADD description VARCHAR(100);
-ALTER TABLE category_operation ADD COLUMN type VARCHAR(255);
 
