@@ -2,6 +2,7 @@ package com.devunited.examenfinalprog4.controller;
 
 import com.devunited.examenfinalprog4.model.CategoryOperations;
 import com.devunited.examenfinalprog4.service.CategoryOperationsService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -35,5 +36,11 @@ public class CategoryOperationsController {
     @PutMapping("/categoryOperations/{id}")
     public CategoryOperations updateCategoryOperations(@PathVariable int id, @RequestBody CategoryOperations categoryOperations) throws SQLException {
         return categoryOperationsService.updateCategoryOperations(id, categoryOperations);
+    }
+
+    @GetMapping("/categoryOperations/type/{type}")
+    public ResponseEntity<List<CategoryOperations>> getCategoriesByType(@PathVariable String type) throws SQLException {
+        List<CategoryOperations> categories = categoryOperationsService.getCategoriesByType(type);
+        return ResponseEntity.ok(categories);
     }
 }

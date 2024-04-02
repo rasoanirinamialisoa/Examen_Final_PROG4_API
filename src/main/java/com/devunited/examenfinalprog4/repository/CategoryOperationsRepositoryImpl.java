@@ -80,6 +80,30 @@ public class CategoryOperationsRepositoryImpl implements CategoryOperationsRepos
         return null;
     }
 
+    @Override
+    public List<CategoryOperations> findByType(String type) throws SQLException {
+        List<CategoryOperations> categories = new ArrayList<>();
+        String sql = "SELECT * FROM category_operations WHERE type = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, type);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    CategoryOperations category = new CategoryOperations();
+                    category.setId(resultSet.getInt("id"));
+                    category.setName(resultSet.getString("name"));
+                    category.setType(resultSet.getString("type"));
+
+                    categories.add(category);
+                }
+            }
+        }
+
+        return categories;
+    }
+
+
     private CategoryOperations mapResultSetToCategoryOperations(ResultSet resultSet) throws SQLException {
         CategoryOperations categoryOperation = new CategoryOperations();
         categoryOperation.setId(resultSet.getInt(CategoryOperations.ID));

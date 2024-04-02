@@ -10,4 +10,6 @@ public interface CategoryOperationsService {
     CategoryOperations getCategoryOperationsById(int id) throws SQLException;
     CategoryOperations createCategoryOperations(CategoryOperations categoryOperations) throws SQLException;
     CategoryOperations updateCategoryOperations(int id, CategoryOperations categoryOperations) throws SQLException;
+
+    List<CategoryOperations> getCategoriesByType(String type) throws SQLException;
 }

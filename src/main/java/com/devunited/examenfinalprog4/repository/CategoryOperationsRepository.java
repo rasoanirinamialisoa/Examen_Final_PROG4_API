@@ -10,4 +10,5 @@ public interface CategoryOperationsRepository {
     CategoryOperations getCategoryOperationsById(int id) throws SQLException;
     CategoryOperations createCategoryOperations(CategoryOperations categoryOperations) throws SQLException;
     CategoryOperations updateCategoryOperations(int id, CategoryOperations categoryOperations) throws SQLException;
+    List<CategoryOperations> findByType(String type) throws SQLException;
 }

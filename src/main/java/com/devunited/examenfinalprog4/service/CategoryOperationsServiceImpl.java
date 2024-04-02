@@ -33,4 +33,9 @@ public class CategoryOperationsServiceImpl implements CategoryOperationsService 
     public CategoryOperations updateCategoryOperations(int id, CategoryOperations categoryOperations) throws SQLException {
         return categoryOperationsRepository.updateCategoryOperations(id, categoryOperations);
     }
+
+    public List<CategoryOperations> getCategoriesByType(String type) throws SQLException {
+        return categoryOperationsRepository.findByType(type);
+    }
+
 }
