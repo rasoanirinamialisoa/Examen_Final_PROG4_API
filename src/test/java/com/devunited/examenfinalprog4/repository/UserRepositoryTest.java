@@ -1,6 +1,8 @@
-package com.devunited.examenfinalprog4.repository;
+package com.devunited.examenfinalprog4.Repository;
 
 import com.devunited.examenfinalprog4.model.Users;
+import com.devunited.examenfinalprog4.repository.UserRepository;
+import com.devunited.examenfinalprog4.repository.UserRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
