@@ -1,6 +1,7 @@
 package com.devunited.examenfinalprog4.repository;
 
 import com.devunited.examenfinalprog4.config.ConnectDatabase;
+import com.devunited.examenfinalprog4.model.CategoryOperations;
 import com.devunited.examenfinalprog4.model.Transactions;
 import org.springframework.stereotype.Repository;
 

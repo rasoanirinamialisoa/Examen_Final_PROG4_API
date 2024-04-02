@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 
 @Repository
 public class CategoryOperationsRepositoryImpl implements CategoryOperationsRepository {
@@ -44,7 +47,7 @@ public class CategoryOperationsRepositoryImpl implements CategoryOperationsRepos
 
     @Override
     public CategoryOperations createCategoryOperations(CategoryOperations categoryOperations) throws SQLException {
-        String query = "INSERT INTO category_operation (name, description) VALUES (?, ?)";
+        String query = "INSERT INTO category_operation (name, description, type) VALUES (?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, categoryOperations.getName());
             preparedStatement.setString(2,categoryOperations.getDescription());
@@ -67,7 +70,7 @@ public class CategoryOperationsRepositoryImpl implements CategoryOperationsRepos
 
     @Override
     public CategoryOperations updateCategoryOperations(int id, CategoryOperations categoryOperations) throws SQLException {
-        String query = "UPDATE category_operation SET name = ?, description = ? WHERE id = ?";
+        String query = "UPDATE category_operation SET name = ?, description = ?, type = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, categoryOperations.getName());
             preparedStatement.setString(2,categoryOperations.getDescription());
@@ -80,11 +83,56 @@ public class CategoryOperationsRepositoryImpl implements CategoryOperationsRepos
         return null;
     }
 
+    @Override
+    public List<CategoryOperations> findByType(String type) throws SQLException {
+        List<CategoryOperations> categories = new ArrayList<>();
+        String sql = "SELECT * FROM category_operations WHERE type = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, type);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    CategoryOperations category = new CategoryOperations();
+                    category.setId(resultSet.getInt("id"));
+                    category.setName(resultSet.getString("name"));
+                    category.setType(resultSet.getString("type"));
+
+                    categories.add(category);
+                }
+            }
+        }
+
+        return categories;
+    }
+
+    @Override
+    public List<CategoryOperations> getCategorySummary(String startDate, String endDate) throws SQLException {
+        List<CategoryOperations> categorySummaries = new ArrayList<>();
+        String query = "SELECT * FROM get_category_summary(?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, startDate);
+            preparedStatement.setString(2, endDate);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    CategoryOperations categoryOperation = mapResultSetToCategoryOperations(resultSet);
+                    categorySummaries.add(categoryOperation);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return categorySummaries;
+    }
+
+
     private CategoryOperations mapResultSetToCategoryOperations(ResultSet resultSet) throws SQLException {
         CategoryOperations categoryOperation = new CategoryOperations();
         categoryOperation.setId(resultSet.getInt(CategoryOperations.ID));
         categoryOperation.setName(resultSet.getString(CategoryOperations.NAME));
         categoryOperation.setDescription(resultSet.getString(CategoryOperations.DESCRIPTION));
+        categoryOperation.setType(resultSet.getString(CategoryOperations.TYPE));
         return categoryOperation;
     }
 }
